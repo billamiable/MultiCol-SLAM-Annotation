@@ -288,7 +288,7 @@ namespace MultiColSLAM
 
 		// SET FRAME VERTEX
 		VertexMt_cayley* vSE3 = new VertexMt_cayley();
-		vSE3->setEstimate(pFrame->GetPoseMin());
+		vSE3->setEstimate(pFrame->GetPoseMin()); // TODO what is PoseMin?
 		vSE3->setId(0); // index is 0
 		vSE3->setFixed(false);
 		optimizer.addVertex(vSE3);
@@ -300,6 +300,7 @@ namespace MultiColSLAM
 
 		// because the keyframe ids are not continous
 
+		// access the camera system from current frame
 		const int nrCams = pFrame->camSystem.GetNrCams();
 		// SET Mc VERTICES 
 		for (int c = 0; c < nrCams; ++c)
@@ -312,7 +313,7 @@ namespace MultiColSLAM
 
 			currVertexIdx++;
 		}
-		maxMcid = currVertexIdx;
+		maxMcid = currVertexIdx; // id identifier
 
 		// SET IO VERTICES 
 		for (int c = 0; c < nrCams; ++c)
@@ -370,9 +371,9 @@ namespace MultiColSLAM
 				else
 					pointIdx = mapPointId_to_cont_g2oId.find(pMP->mnId)->second;
 
-				int cam = pFrame->keypoint_to_cam.find(i)->second;
+				int cam = pFrame->keypoint_to_cam.find(i)->second; // indirect indexing
 
-				cv::KeyPoint kpUn = pFrame->mvKeys[i];
+				cv::KeyPoint kpUn = pFrame->mvKeys[i]; // direct indexing
 
 				EdgeProjectXYZ2MCS* e = new EdgeProjectXYZ2MCS();
 				e->setMeasurement(Eigen::Vector2d(kpUn.pt.x, kpUn.pt.y));
@@ -385,10 +386,11 @@ namespace MultiColSLAM
 				// 3D point
 				e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(
 					optimizer.vertex(pointIdx)));
+				// use id to determine add this landmark to which camera's edge
 				// Mc
 				e->setVertex(2, dynamic_cast<g2o::OptimizableGraph::Vertex*>(
 					optimizer.vertex(maxMcid - nrCams + cam)));
-				// IO
+				// IO, internal orientation
 				e->setVertex(3, dynamic_cast<g2o::OptimizableGraph::Vertex*>(
 					optimizer.vertex(maxIOid - nrCams + cam)));
 				g2o::RobustKernelHuber* rk = new g2o::RobustKernelHuber;

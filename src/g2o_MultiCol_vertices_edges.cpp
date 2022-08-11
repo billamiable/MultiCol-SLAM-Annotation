@@ -31,7 +31,7 @@ void EdgeProjectXYZ2MCS::computeError()
 	// 1. the cameras interior orientation that maps our point
 	// 2. the world point
 	// 3. the relative orientation of the camera in the MCS frame
-	// 4. the absolute orientation of the MCS
+	// 4. the absolute orientation of the MCS TODO why use this?
 	const VertexMt_cayley* Mt = static_cast<const VertexMt_cayley*>(_vertices[0]);
 	const VertexPointXYZ* pt3 = static_cast<const VertexPointXYZ*>(_vertices[1]);
 	const VertexMc_cayley* Mc = static_cast<const VertexMc_cayley*>(_vertices[2]);

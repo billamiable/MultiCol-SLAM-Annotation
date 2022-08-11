@@ -186,7 +186,7 @@ namespace MultiColSLAM
 		// opencv
 		std::vector<cv::Matx<double, 4, 4>> M_c;		// MCS calibration data
 		std::vector<cv::Matx<double, 6, 1>> M_c_min;    // MCS calibration data as cayley rep
-		// for opengv
+		// for opengv, used new dependency library!
 		opengv::rotations_t camRotations;
 		opengv::translations_t camOffsets;
 

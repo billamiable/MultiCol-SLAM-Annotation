@@ -87,6 +87,8 @@ namespace MultiColSLAM
 		// Vector of keypoints 2d
 		// and corresponding bearing vectors 3d
 		// for each camera
+		// TODO is here the total keypoints or only for one camera?
+		//      seems like the total, but how to distinguish?
 		std::vector<cv::KeyPoint> mvKeys;
 		std::vector<cv::Vec3d>    mvKeysRays; // 3D observation rays
 
@@ -159,8 +161,10 @@ namespace MultiColSLAM
 		// descriptors and keypoints and the image wise indexes
 		// it was observed in
 		// [cont_id : local_image_id]
+		// TODO understand this..
 		std::unordered_map<size_t, int> cont_idx_to_local_cam_idx;
 
+		// pose-related operations are all overwritten
 		cv::Matx<double, 4, 4> GetPose() { return camSystem.Get_M_t(); }
 		cv::Matx<double, 6, 1> GetPoseMin() { return camSystem.Get_M_t_min(); }
 
