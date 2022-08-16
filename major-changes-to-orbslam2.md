@@ -6,7 +6,7 @@
 2. rewritten *frame/keyframe*, which should be *multi-frame/keyframe* now
 3. within each *multi-frame*, it stores only one timestamp, multiple images and corresponding keypoints, descriptors, landmarks... (all stored together in vectors with indices to distinguish)
 4. to form the *virtual body frame*, *pose* for this frame will be added; meanwhile it will be also connected with different cameras through extrinsic matrices (**fixed?**)
-5. due to the introduce of virtual body frame which has no real keypoints and landmarks, therefore all the g2o-related edges need to be re-written (**doublecheck?**)
+5. due to the introduce of virtual body frame which has no real keypoints and landmarks, therefore all the g2o-related edges need to be re-written; moreover, the current implementation is deducted using generalized camera model, we should change the camera model to use their deduction (**biggest challenge for now, doublecheck?**)
 6. similar to item 2, *reference keyframe* would be *reference multi-keyframe*, thus **frame-to-frame tracking would be the combination of each camera's tracking result?**
 7. during optimization, instead of only adding edge for single camera, we need to add edges for all the cameras; meanwhile, we may also need to add edges for nearby cameras which have view overlap
 8. initialization stage should be designed separately, **maybe use one camera to initialize and others just adds on to it? but how?**

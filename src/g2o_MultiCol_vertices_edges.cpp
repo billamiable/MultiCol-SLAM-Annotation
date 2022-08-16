@@ -23,6 +23,7 @@
 
 namespace MultiColSLAM
 {
+// super-important to understand the difference
 void EdgeProjectXYZ2MCS::computeError()
 {
 
@@ -52,6 +53,7 @@ void EdgeProjectXYZ2MCS::computeError()
 	_error(1) = _measurement(1) - v;
 }
 
+// seems to be not that complicated, but it's clear that camera model is involved!
 void EdgeProjectXYZ2MCS::linearizeOplus()
 {
 	const VertexMt_cayley* Mt = static_cast<const VertexMt_cayley*>(_vertices[0]);
@@ -116,7 +118,9 @@ void EdgeProjectXYZ2MCS::linearizeOplus()
 		
 }
 
-
+// TODO OMG! interesting, all the defined part is here!
+//      BUT all optimizations use the same edge!
+//      Maybe we cannot use this? but maybe can..
 void mcsJacs1(const cv::Vec3d& pt3,
 	const cv::Matx61d& M_t,
 	const cv::Matx61d& M_c,

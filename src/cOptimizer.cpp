@@ -287,6 +287,7 @@ namespace MultiColSLAM
 		optimizer.addPostIterationAction(terminateAction);
 
 		// SET FRAME VERTEX
+		// TODO diff between common pose vertex? virtual body frame pose?
 		VertexMt_cayley* vSE3 = new VertexMt_cayley();
 		vSE3->setEstimate(pFrame->GetPoseMin()); // TODO what is PoseMin?
 		vSE3->setId(0); // index is 0
@@ -295,16 +296,18 @@ namespace MultiColSLAM
 		redundancy -= vSE3->dimension();
 
 		unsigned long currVertexIdx = 1;
-		unsigned long maxMcid = 0;
-		unsigned long maxIOid = 0;
+		unsigned long maxMcid = 0; // max id for camera pose
+		unsigned long maxIOid = 0; // max id for camera model (based on maxMcid)
 
 		// because the keyframe ids are not continous
+		// TODO how are keyframe ids organized?
 
 		// access the camera system from current frame
 		const int nrCams = pFrame->camSystem.GetNrCams();
 		// SET Mc VERTICES 
 		for (int c = 0; c < nrCams; ++c)
 		{
+			// TODO camera pose for multi-camera setup
 			VertexMc_cayley* vMc = new VertexMc_cayley();
 			vMc->setEstimate(pFrame->camSystem.Get_M_c_min(c));
 			vMc->setId(currVertexIdx);
@@ -318,6 +321,8 @@ namespace MultiColSLAM
 		// SET IO VERTICES 
 		for (int c = 0; c < nrCams; ++c)
 		{
+			// TODO what is OmniCameraParameters? camera model related???
+			//      it seems to be a big change to adapt to different camera models!
 			VertexOmniCameraParameters* vIO = new
 				VertexOmniCameraParameters(pFrame->camSystem.GetCamModelObj(c));
 			vIO->setEstimate(pFrame->camSystem.GetCamModelObj(c).toVector());
@@ -338,12 +343,12 @@ namespace MultiColSLAM
 		std::vector<double> vInvSigmas2;
 		std::vector<size_t> vnIndexEdge;
 
-		const int N = pFrame->mvpMapPoints.size();
+		const int N = pFrame->mvpMapPoints.size(); // all mappoints from different cameras
 		vpEdges.reserve(N);
 		vVertices.reserve(N);
 		vInvSigmas2.reserve(N);
 		vnIndexEdge.reserve(N);
-		std::unordered_map<int, int> mapPt_2_obs_idx;
+		std::unordered_map<int, int> mapPt_2_obs_idx; // newly defined data structure
 		int pointIdx = 0;
 		int nInitialCorrespondences = 0;
 		for (int i = 0; i < N; ++i)
@@ -353,11 +358,12 @@ namespace MultiColSLAM
 
 			if (pMP)
 			{
+				// normally will go into this block first
 				if (mapPt_2_obs_idx.count(pMP->mnId) <= 0)
 				{
 					mapPt_2_obs_idx[pMP->mnId] = i;
 
-					VertexPointXYZ* vPoint = new VertexPointXYZ();
+					VertexPointXYZ* vPoint = new VertexPointXYZ(); // seem to be same as before
 					vPoint->setEstimate(pMP->GetWorldPos());
 					vPoint->setId(currVertexIdx);
 					vPoint->setFixed(true);
@@ -368,13 +374,15 @@ namespace MultiColSLAM
 					currVertexIdx++;
 
 				}
+				// TODO should rarely go into this block, which means duplicate?
 				else
 					pointIdx = mapPointId_to_cont_g2oId.find(pMP->mnId)->second;
 
-				int cam = pFrame->keypoint_to_cam.find(i)->second; // indirect indexing
+				int cam = pFrame->keypoint_to_cam.find(i)->second; // indirect indexing for camera
 
 				cv::KeyPoint kpUn = pFrame->mvKeys[i]; // direct indexing
 
+				// totally new defined edge
 				EdgeProjectXYZ2MCS* e = new EdgeProjectXYZ2MCS();
 				e->setMeasurement(Eigen::Vector2d(kpUn.pt.x, kpUn.pt.y));
 				const double invSigma2 = pFrame->mvInvLevelSigma2[kpUn.octave];
@@ -389,8 +397,8 @@ namespace MultiColSLAM
 				// use id to determine add this landmark to which camera's edge
 				// Mc
 				e->setVertex(2, dynamic_cast<g2o::OptimizableGraph::Vertex*>(
-					optimizer.vertex(maxMcid - nrCams + cam)));
-				// IO, internal orientation
+					optimizer.vertex(maxMcid - nrCams + cam))); // straight-forward indexing
+				// IO, internal orientation TODO similar to camera model?
 				e->setVertex(3, dynamic_cast<g2o::OptimizableGraph::Vertex*>(
 					optimizer.vertex(maxIOid - nrCams + cam)));
 				g2o::RobustKernelHuber* rk = new g2o::RobustKernelHuber;
