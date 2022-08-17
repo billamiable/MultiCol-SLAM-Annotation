@@ -202,6 +202,7 @@ namespace MultiColSLAM
 
 		//BoW
 		// for all cams combined
+		// TODO how's this done?
 		DBoW2::BowVector mBowVec;
 		// for each cam
 		std::vector<DBoW2::BowVector> mBowVecs;

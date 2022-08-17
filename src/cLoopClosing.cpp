@@ -21,7 +21,7 @@
 /*
 * MultiCol-SLAM is based on ORB-SLAM2 which was also released under GPLv3
 * For more information see <https://github.com/raulmur/ORB_SLAM2>
-* Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+* Raï¿½l Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
 */
 
 #include "cLoopClosing.h"
@@ -110,6 +110,7 @@ namespace MultiColSLAM
 		return (!mlpLoopKeyFrameQueue.empty());
 	}
 
+	// TODO check if different from single-camera case
 	bool cLoopClosing::DetectLoop()
 	{
 		//cout << "in loop detect" << endl;
@@ -129,6 +130,7 @@ namespace MultiColSLAM
 			return false;
 		}
 
+		// Step1: directly use covisibility BoW for matching
 		// Compute reference BoW similarity score
 		// This is the lowest score to a connected keyframe in the covisibility graph
 		// We will impose loop candidates to have a higher similarity than this
@@ -150,6 +152,8 @@ namespace MultiColSLAM
 				minScore = score;
 		}
 		//cout << "minScore: " << minScore << endl;
+
+		// Step2: detect loop candidates from map database
 		// Query the database imposing the minimum score
 		std::vector<cMultiKeyFrame*> vpCandidateKFs =
 			mpKeyFrameDB->DetectLoopCandidates(mpCurrentKF, minScore);
@@ -163,6 +167,10 @@ namespace MultiColSLAM
 			return false;
 		}
 		cout << "======== HAVING A LOOP CANDIDATE ========" << endl;
+
+
+		// Step3: check consecutive keyframe consistency for loop candidate
+		// TODO what's the definition of consistency group??
 		// For each loop candidate check consistency with previous loop candidates
 		// Each candidate expands a covisibility group (keyframes connected to the loop candidate in the covisibility graph)
 		// A group is consistent with a previous group if they share at least a keyframe

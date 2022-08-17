@@ -21,7 +21,7 @@
 /*
 * MultiCol-SLAM is based on ORB-SLAM2 which was also released under GPLv3
 * For more information see <https://github.com/raulmur/ORB_SLAM2>
-* Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+* Raï¿½l Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
 */
 
 #include "cMultiKeyFrameDatabase.h"
@@ -78,13 +78,18 @@ namespace MultiColSLAM
 		mvInvertedFile.resize(mpVoc->size());
 	}
 
-
+	// TODO understand this part
+	//      seems that the whole BoW for MF will be used to compare
 	vector<cMultiKeyFrame*> cMultiKeyFrameDatabase::DetectLoopCandidates(cMultiKeyFrame* pKF,
 		double minScore)
 	{
+		// TODO what's connected keyframes??
 		set<cMultiKeyFrame*> spConnectedKeyFrames = pKF->GetConnectedKeyFrames();
 		list<cMultiKeyFrame*> lKFsSharingWords;
 
+		// Step1: get bow word sharing keyframes
+		// TODO for one camera or multi-camera?
+		//      seems to use multi-camera, but needs to investigate the implementation of bow
 		// Search all keyframes that share a word with current keyframes
 		// Discard keyframes connected to the query keyframe
 		{
@@ -118,6 +123,7 @@ namespace MultiColSLAM
 
 		list<pair<double, cMultiKeyFrame*> > lScoreAndMatch;
 
+		// Step2: compare with those that beyond certain threshold
 		// Only compare against those multikeyframes that share enough words
 		int maxCommonWords = 0;
 		for (list<cMultiKeyFrame*>::iterator lit = lKFsSharingWords.begin(), lend = lKFsSharingWords.end();
@@ -131,6 +137,7 @@ namespace MultiColSLAM
 
 		int nscores = 0;
 
+		// Step3: use similarity score to filter again
 		// Compute similarity score. Retain the matches whose score is higher than minScore
 		for (list<cMultiKeyFrame*>::iterator lit = lKFsSharingWords.begin(), lend = lKFsSharingWords.end();
 			lit != lend; lit++)
