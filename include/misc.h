@@ -103,6 +103,7 @@ namespace MultiColSLAM
 		else return T(0);
 	}
 
+	// TODO we don't need this, right?
 	/**
 	* evaluate a polynom using Horner
 	*

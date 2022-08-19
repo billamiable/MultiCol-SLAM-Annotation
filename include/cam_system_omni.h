@@ -181,9 +181,10 @@ namespace MultiColSLAM
 		// current camera pose
 		cv::Matx<double, 4, 4> M_t;			// MCS pose
 		cv::Matx<double, 4, 4> M_t_inv;		// inverse MCS pose
-		cv::Matx<double, 6, 1> M_t_min;		// MCS pose cayley
+		cv::Matx<double, 6, 1> M_t_min;		// MCS pose cayley, only another form of pose
 
 		// opencv
+		// yes, now it seems clear to me, Mc is only the relative transform
 		std::vector<cv::Matx<double, 4, 4>> M_c;		// MCS calibration data
 		std::vector<cv::Matx<double, 6, 1>> M_c_min;    // MCS calibration data as cayley rep
 		// for opengv, used new dependency library!

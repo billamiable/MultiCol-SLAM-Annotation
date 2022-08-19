@@ -38,6 +38,7 @@ namespace MultiColSLAM
 		const Eigen::Matrix<double, 12 + 5, 1>& camModelData,
 		cv::Matx<double, 2, 32>& jacs);
 
+	// newly defined in g2o related part
 	class VertexOmniCameraParameters : public g2o::BaseVertex<5 + 12, Eigen::Matrix<double, 5 + 12, 1>>
 	{
 	public:

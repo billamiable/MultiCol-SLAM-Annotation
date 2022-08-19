@@ -29,16 +29,18 @@ void EdgeProjectXYZ2MCS::computeError()
 
 	// get all vertices
 	// we need 4:
-	// 1. the cameras interior orientation that maps our point
+	// 1. the cameras interior orientation that maps our point (camera params that are used for projection)
 	// 2. the world point
 	// 3. the relative orientation of the camera in the MCS frame
-	// 4. the absolute orientation of the MCS TODO why use this?
+	// 4. the absolute orientation of the MCS (pose for body frame)
 	const VertexMt_cayley* Mt = static_cast<const VertexMt_cayley*>(_vertices[0]);
 	const VertexPointXYZ* pt3 = static_cast<const VertexPointXYZ*>(_vertices[1]);
 	const VertexMc_cayley* Mc = static_cast<const VertexMc_cayley*>(_vertices[2]);
 	const VertexOmniCameraParameters* camera = static_cast<const VertexOmniCameraParameters*>(_vertices[3]);
 
 	// pose of camera in worldframe
+	// cayley2hom - 6x1 minimal homogeneous transformation vector to homogeneous 4x4 transformation matrix
+	// Mc is not the absoulte pose for camera, it's the relative transform between each camera and body frame
 	cv::Matx44d Mct = cayley2hom(Mt->estimate())*cayley2hom(Mc->estimate());
 	cv::Matx44d cMct_inv = cConverter::invMat(Mct);
 
@@ -48,7 +50,9 @@ void EdgeProjectXYZ2MCS::computeError()
 	//cCamModelGeneral_ camModelTemp;
 	//camModelTemp.fromVector(camera->estimate());
 	double u = 0.0; double v = 0.0;
+	// already in the camera coordinate, just camera model projection
 	camera->camModel.WorldToImg(pt3_rot(0), pt3_rot(1), pt3_rot(2), u, v);
+	// the final form is straightforward, still the form of reprojection error
 	_error(0) = _measurement(0) - u;
 	_error(1) = _measurement(1) - v;
 }

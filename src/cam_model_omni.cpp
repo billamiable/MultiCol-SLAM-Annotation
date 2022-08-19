@@ -143,6 +143,7 @@ namespace MultiColSLAM
 		m(1) = uu*e + vv + v0;
 	}
 
+	// u,v are outputs, so the goal is to transform the 3D landmark to 2D image point
 	void cCamModelGeneral_::WorldToImg(const double& x, const double& y, const double& z,    // 3D scene point
 		double& u, double& v) const							 // 2D image point
 	{
@@ -151,6 +152,7 @@ namespace MultiColSLAM
 			norm = 1e-14;
 
 		const double theta = atan(-z / norm);
+		// TODO horner
 		const double rho = horner((double*)invP.data, invP_deg, theta);
 
 		const double uu = x / norm * rho;

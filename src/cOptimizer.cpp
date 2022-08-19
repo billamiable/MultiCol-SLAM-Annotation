@@ -287,11 +287,11 @@ namespace MultiColSLAM
 		optimizer.addPostIterationAction(terminateAction);
 
 		// SET FRAME VERTEX
-		// TODO diff between common pose vertex? virtual body frame pose?
+		// virtual body frame pose, Mt
 		VertexMt_cayley* vSE3 = new VertexMt_cayley();
 		vSE3->setEstimate(pFrame->GetPoseMin()); // TODO what is PoseMin?
 		vSE3->setId(0); // index is 0
-		vSE3->setFixed(false);
+		vSE3->setFixed(false); // pose will be optimized
 		optimizer.addVertex(vSE3);
 		redundancy -= vSE3->dimension();
 
@@ -304,14 +304,14 @@ namespace MultiColSLAM
 
 		// access the camera system from current frame
 		const int nrCams = pFrame->camSystem.GetNrCams();
-		// SET Mc VERTICES 
+		// SET Mc VERTICES
+		// TODO each camera frame pose, Mc?
 		for (int c = 0; c < nrCams; ++c)
 		{
-			// TODO camera pose for multi-camera setup
 			VertexMc_cayley* vMc = new VertexMc_cayley();
 			vMc->setEstimate(pFrame->camSystem.Get_M_c_min(c));
 			vMc->setId(currVertexIdx);
-			vMc->setFixed(true);
+			vMc->setFixed(true); // yep, the relative transforms between body frame and each camera are fixed
 			optimizer.addVertex(vMc);
 
 			currVertexIdx++;
@@ -323,11 +323,13 @@ namespace MultiColSLAM
 		{
 			// TODO what is OmniCameraParameters? camera model related???
 			//      it seems to be a big change to adapt to different camera models!
+			//      seems that it is only useful for camera projection, maybe we don't need this part
+			//      why is camera model still a vertex in optimization graph?
 			VertexOmniCameraParameters* vIO = new
 				VertexOmniCameraParameters(pFrame->camSystem.GetCamModelObj(c));
 			vIO->setEstimate(pFrame->camSystem.GetCamModelObj(c).toVector());
 			vIO->setId(currVertexIdx);
-			vIO->setFixed(true);
+			vIO->setFixed(true); // camera model params are fixed
 			optimizer.addVertex(vIO);
 
 			currVertexIdx++;
@@ -363,6 +365,7 @@ namespace MultiColSLAM
 				{
 					mapPt_2_obs_idx[pMP->mnId] = i;
 
+					// 3D landmark
 					VertexPointXYZ* vPoint = new VertexPointXYZ(); // seem to be same as before
 					vPoint->setEstimate(pMP->GetWorldPos());
 					vPoint->setId(currVertexIdx);
@@ -398,7 +401,7 @@ namespace MultiColSLAM
 				// Mc
 				e->setVertex(2, dynamic_cast<g2o::OptimizableGraph::Vertex*>(
 					optimizer.vertex(maxMcid - nrCams + cam))); // straight-forward indexing
-				// IO, internal orientation TODO similar to camera model?
+				// IO, internal orientation
 				e->setVertex(3, dynamic_cast<g2o::OptimizableGraph::Vertex*>(
 					optimizer.vertex(maxIOid - nrCams + cam)));
 				g2o::RobustKernelHuber* rk = new g2o::RobustKernelHuber;

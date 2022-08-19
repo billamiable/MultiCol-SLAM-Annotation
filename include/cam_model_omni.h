@@ -42,6 +42,8 @@ Date: 23.08.2016
 
 namespace MultiColSLAM
 {
+	// newly defined generic camera model
+	// responsible for camera projection and inverse-projection
 	class cCamModelGeneral_
 	{
 	public:
