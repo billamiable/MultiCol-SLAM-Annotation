@@ -54,6 +54,8 @@ namespace MultiColSLAM
 	double cOptimizer::stdRecon = 2.0;
 	double cOptimizer::stdPose = 2.0;
 
+	// TODO no transform_optimizer for sim3 optimization?
+
 	void cOptimizer::GlobalBundleAdjustment(cMap* pMap,
 		bool poseOnly,
 		int nIterations,
@@ -66,6 +68,8 @@ namespace MultiColSLAM
 			nIterations, pbStopFlag);
 	}
 
+	// it's nice to reuse the implementation! actually it is only used for globalBA...
+	// the overall pipeline seems to be the same as poseoptimization
 	void cOptimizer::BundleAdjustment(const std::vector<cMultiKeyFrame*> &vpKFs,
 		const std::vector<cMapPoint*> &vpMP,
 		bool poseOnly,
@@ -256,6 +260,7 @@ namespace MultiColSLAM
 
 	}
 
+	// almost understand poseoptimization
 	int cOptimizer::PoseOptimization(cMultiFrame *pFrame,
 		double& inliers,
 		const double& huberMultiplier)
@@ -305,7 +310,7 @@ namespace MultiColSLAM
 		// access the camera system from current frame
 		const int nrCams = pFrame->camSystem.GetNrCams();
 		// SET Mc VERTICES
-		// TODO each camera frame pose, Mc?
+		// each camera frame pose, Mc
 		for (int c = 0; c < nrCams; ++c)
 		{
 			VertexMc_cayley* vMc = new VertexMc_cayley();
@@ -471,6 +476,7 @@ namespace MultiColSLAM
 		return nInitialCorrespondences - nBad;
 	}
 
+	// the overall pipeline is also similar, except more complicated part for finding local keyframes and landmarks
 	std::list<cMultiKeyFrame*> cOptimizer::LocalBundleAdjustment(
 		cMultiKeyFrame *pKF,
 		cMap* pMap,
@@ -481,6 +487,7 @@ namespace MultiColSLAM
 #ifdef VERBOSE
 		cout << " ---OPTIMIZING LOCAL MAP--- " << endl;
 #endif
+		// the finding of local keyframes and landmarks are almost the same as the one in orbslam
 		int numUnknowns = 0;
 		int numObservationsTotal = 0;
 		// Local KeyFrames: First Breath Search from Current Keyframe
@@ -557,6 +564,7 @@ namespace MultiColSLAM
 		if (pbStopFlag)
 			optimizer.setForceStopFlag(pbStopFlag);
 
+		// TODO what is the extra stuff for g2o optimization
 		g2o::SparseOptimizerTerminateAction* terminateAction = 0;
 		terminateAction = new g2o::SparseOptimizerTerminateAction;
 		terminateAction->setGainThreshold(1e-6);
@@ -583,6 +591,7 @@ namespace MultiColSLAM
 				numUnknowns += 6;
 		}
 
+		// TODO understand this part?
 		// if no camera was fixed and also the fixed camera vector is empty
 		// fix one camera
 		if (!oneFixed && lFixedCameras.size() == 0)
@@ -613,7 +622,8 @@ namespace MultiColSLAM
 
 		// because the keyframe ids are not continous
 		const int nrCams = pKF->camSystem.GetNrCams();
-		// SET Mc VERTICES 
+		// SET Mc VERTICES
+		// there are always fixed number of Mt vertexs in opitmization
 		for (int c = 0; c < nrCams; ++c)
 		{
 			VertexMc_cayley* vMc = new VertexMc_cayley();
@@ -628,7 +638,8 @@ namespace MultiColSLAM
 		}
 		maxMcid = currVertexIdx;
 
-		// SET IO VERTICES 
+		// SET IO VERTICES
+		// same for IO as well
 		for (int c = 0; c < nrCams; ++c)
 		{
 			VertexOmniCameraParameters* vIO =
@@ -692,6 +703,7 @@ namespace MultiColSLAM
 			std::map<cMultiKeyFrame*, std::vector<size_t> > observations = pMP->GetObservations();
 
 			// SET EDGES
+			// TODO understand about this process?
 			// in contrast to ORB_SLAM an additional layer of measurements has to be introduced
 			// we also need to search for the camera in which the observation was made
 			int obsCnt = 0;

@@ -2,24 +2,26 @@
 
 ### tracker
 
-1. still use *current frame* data structure, which doesn't change the overall appearance of the *track()*
-2. rewritten *frame/keyframe*, which should be *multi-frame/keyframe* now
-3. within each *multi-frame*, it stores only one timestamp, multiple images and corresponding keypoints, descriptors, landmarks... (all stored together in vectors with indices to distinguish)
-4. to form the *virtual body frame*, *pose* for this frame will be added; meanwhile it will be also connected with different cameras through extrinsic matrices (**fixed?**)
-5. due to the introduce of virtual body frame which has no real keypoints and landmarks, therefore all the g2o-related edges need to be re-written; moreover, the current implementation is deducted using generalized camera model, we should change the camera model to use their deduction (**biggest challenge for now, doublecheck?**)
-6. similar to item 2, *reference keyframe* would be *reference multi-keyframe*, thus **frame-to-frame tracking would be the combination of each camera's tracking result?**
-7. during optimization, instead of only adding edge for single camera, we need to add edges for all the cameras; meanwhile, we may also need to add edges for nearby cameras which have view overlap
-8. initialization stage should be designed separately, **maybe use one camera to initialize and others just adds on to it? but how?**
+1. sync between multiple camera inputs, for example ros message_filter will be needed and new callback func
+2. still use *current frame* data structure, which doesn't change the overall appearance of the *track()*
+3. rewritten *frame/keyframe*, which should be *multi-frame/keyframe* now
+4. similarily, *reference keyframe* would be *reference multi-keyframe*, thus **frame-to-frame tracking would be the tightly-coupled optimization result by forming edge including all the cameras**
+5. within each *multi-frame*, it stores only one timestamp, multiple images and corresponding keypoints, descriptors, landmarks... (all stored together in vectors with indices to distinguish)
+6. to form the *virtual body frame*, *pose* for this frame will be added; meanwhile it will be also connected with *different camera frames* through extrinsic matrices (**fixed**)
+7. due to the introduce of virtual body frame which has no real keypoints and landmarks, therefore all the g2o-related edges need to be re-written; moreover, the current implementation is deducted using generalized camera model, we will start with perspective camera model only for realsense, so new deduction should be derived (**biggest challenge for now**)
+8. during optimization, instead of only adding edge for single camera, we need to add edges for all the cameras; meanwhile, we may also need to add edges for nearby cameras which have view overlap (**optional**)
+9. initialization stage should be designed separately: **for realsense camera, only one frame is enough for initialization, therefore maybe just directly initialize by itself for each camera at a certain starting point**
 
 
-### tracker-server communication
+### tracker-server communication (**in the first stage, we wil only achieve the tracker part**)
 
 1. message type should support *multi-frame* data structure
 
 
-### server
+### server (**in the first stage, we will only achieve the tracker part**)
 
-1. **loop closure should support multi-camera**, which should solve the problem of map merge not happening when robot moves in opposite directions
+1. **loop closure should support multi-camera slam**, which should solve the problem of map merge not happening when robot moves in opposite directions 
+2. **map merge should also support multi-camera slam**, policy should be designed to solve the problem
 
 ---
 
@@ -27,3 +29,7 @@
 
 1. diff between my thoughts and real implementation
 2. diff between orbslam2 and multicol-slam (per-file diff)
+3. find out if any major changing parts are missing
+4. generic camera model definition (**to understand why camera model will be added as a vertex in optimization graph**)
+5. g2o edge formulation and deduction (**to find out how much effort is needed to deduct by our own; meanwhile understand why only one edge is defined, is it enough?**)
+6. map db and graph node organization structure (**to understand if large changes are needed for this part**)
