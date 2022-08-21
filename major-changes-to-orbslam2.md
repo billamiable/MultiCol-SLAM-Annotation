@@ -30,8 +30,8 @@
 1. diff between my thoughts and real implementation
 2. diff between orbslam2 and multicol-slam (per-file diff)
 3. find out if any major changing parts are missing
-4. generic camera model definition (**to understand why camera model will be added as a vertex in optimization graph**)
-5. g2o edge formulation and deduction (**to find out how much effort is needed to deduct by our own; meanwhile understand why loop-related edge doesn't need to define new jacobian matrix?**)
+4. generic camera model definition (**to understand why camera model and camera extrinsic matrices will be added as vertex in optimization graph, maybe refer to other works that may simiplify the logic**)
+5. g2o edge formulation and deduction (**to find out how much effort is needed to deduct by our own**)
 6. map db and graph node organization structure (**to understand if large changes are needed for this part**)
 
 
@@ -46,5 +46,5 @@
 - EdgeSim3ProjectXYZ & EdgeInverseSim3ProjectXYZ (optimize sim3)
 
 1. why pose optimizer needs extra edge? can't we just fix landmark? A: yes, it is what multicol-slam does and we can change the orbslam formulation as well. so essential multicol-slam eliminates pose optimizer related edge.
-2. difference between edgesim3 with others? doesn't multicol-slam use essential graph? A: it is like pose graph edge; it uses.
-3. doesn't multicol-slam use optimizer_sim3? A: yes; it uses.
+2. difference between edgesim3 with others? doesn't multicol-slam use essential graph? A: it is like pose graph edge; it uses, but it doesn't need to define new jacobian matrix since only two poses are used.
+3. doesn't multicol-slam use optimizer_sim3? A: yes; it uses, **but it doesn't need to define new jacobian matrix. It's interesting and we may be able to refer to this formulation instead of se3 one. check if the assumption is valid or not? in this case, no jacobian deduction is needed!!!**

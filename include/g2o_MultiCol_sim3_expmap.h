@@ -37,9 +37,10 @@
 #include "cConverter.h"
 #include "g2o_MultiCol_vertices_edges.h"
 
-// TODO seems that here, it also didn't follow multi-camera formulation?
+// TODO seems it also didn't follow multi-camera formulation?
 //      I got it, here it only uses the virtual body frame to optimize
-//      thus only the way for projection is changed.
+//      thus only the way for projection is changed
+//      i think it should be a simiplified version
 namespace MultiColSLAM
 {
 	/**
@@ -118,6 +119,7 @@ namespace MultiColSLAM
 	public:
 		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 			VertexSim3Expmap_Multi() {}
+		// TODO can we also make this map outside the g2o?
 		VertexSim3Expmap_Multi(
 			std::unordered_map<size_t, int>& kp_to_cam1,
 			std::unordered_map<size_t, int>& kp_to_cam2);
@@ -140,7 +142,7 @@ namespace MultiColSLAM
 		cMultiCamSys_* camSys1;
 		cMultiCamSys_* camSys2;
 
-
+		// it is very likely that we can directly use the current g2o version, only changing the projection part
 		cv::Vec2d cam_map1(const Eigen::Vector3d& v, int ptIdx) const
 		{
 			cv::Vec2d res;

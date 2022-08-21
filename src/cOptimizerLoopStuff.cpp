@@ -57,6 +57,9 @@ namespace MultiColSLAM
 	// TODO will the following two funcs use multi-camera formulation?
 	//      I think so, but I think from here it is not shown
 	//      it's shown inside the edge definition
+	// TODO more in-depth understanding about this part is needed
+	//      it is crucial for us to decide whether it is possible to directly use the g2o formulation
+	//      my personal opionion would be: it should be possible!
 	int cOptimizer::OptimizeSim3(cMultiKeyFrame *pKF1,
 		cMultiKeyFrame *pKF2,
 		vector<cMapPoint *> &vpMatches1,

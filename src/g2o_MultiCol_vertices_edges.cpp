@@ -24,6 +24,11 @@
 namespace MultiColSLAM
 {
 // super-important to understand the difference
+// edge, that projects a point to a multi camera system
+// vertex 0 : t -> Mt, which is the MCS pose
+// vertex 1 : i -> 3D point
+// vertex 2 : c -> Mc, transformation from MCS to camera
+// vertex 3 : c -> interior orientation
 void EdgeProjectXYZ2MCS::computeError()
 {
 
@@ -58,6 +63,7 @@ void EdgeProjectXYZ2MCS::computeError()
 }
 
 // seems to be not that complicated, but it's clear that camera model is involved!
+// TODO see if we can eliminate camera model (even extrinsic matrix) in the formulation
 void EdgeProjectXYZ2MCS::linearizeOplus()
 {
 	const VertexMt_cayley* Mt = static_cast<const VertexMt_cayley*>(_vertices[0]);
@@ -123,7 +129,7 @@ void EdgeProjectXYZ2MCS::linearizeOplus()
 }
 
 // TODO OMG! interesting, all the defined part is here!
-//      BUT all optimizations use the same edge!
+//      BUT all BA optimizations use the same edge!
 //      Maybe we cannot use this? but maybe can..
 void mcsJacs1(const cv::Vec3d& pt3,
 	const cv::Matx61d& M_t,
@@ -154,6 +160,7 @@ void mcsJacs1(const cv::Vec3d& pt3,
 	const double t_rel2 = M_c(4, 0);
 	const double t_rel3 = M_c(5, 0);
 
+	// TODO major parts of the following lines are related to camera model only
 	// interior orientation
 	const double c = camModelData(0, 0);
 	const double d = camModelData(1, 0);
