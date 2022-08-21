@@ -49,12 +49,14 @@
 #include "g2o_MultiCol_vertices_edges.h"
 #include "g2o_MultiCol_sim3_expmap.h"
 
-
+// interesting, there is another separate optimizer defined here
 namespace MultiColSLAM
 {
 	double cOptimizer::stdSim = 4.0;
 
-
+	// TODO will the following two funcs use multi-camera formulation?
+	//      I think so, but I think from here it is not shown
+	//      it's shown inside the edge definition
 	int cOptimizer::OptimizeSim3(cMultiKeyFrame *pKF1,
 		cMultiKeyFrame *pKF2,
 		vector<cMapPoint *> &vpMatches1,
@@ -162,8 +164,9 @@ namespace MultiColSLAM
 			cv::KeyPoint kpUn1 = pKF1->GetKeyPoint(i);
 			obs1 << kpUn1.pt.x, kpUn1.pt.y;
 
+			// seems that camera model and extrinsic matrix are not involved
 			EdgeSim3ProjectXYZ_Multi* e12 =
-				new EdgeSim3ProjectXYZ_Multi();
+				new EdgeSim3ProjectXYZ_Multi(); // TODO understand this one?
 			e12->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(id2))); // point
 			e12->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(0))); // Sim3
 			e12->setMeasurement(obs1);

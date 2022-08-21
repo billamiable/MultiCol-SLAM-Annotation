@@ -111,6 +111,7 @@ namespace MultiColSLAM
 	}
 
 	// TODO check if different from single-camera case
+	//      this only detect loop, doesn't perform update
 	bool cLoopClosing::DetectLoop()
 	{
 		//cout << "in loop detect" << endl;

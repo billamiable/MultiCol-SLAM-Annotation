@@ -20,7 +20,7 @@
 
 ### server (**in the first stage, we will only achieve the tracker part**)
 
-1. **loop closure should support multi-camera slam**, which should solve the problem of map merge not happening when robot moves in opposite directions 
+1. **loop closure should support multi-camera slam**, which should solve the problem of map merge not happening when robot moves in opposite directions
 2. **map merge should also support multi-camera slam**, policy should be designed to solve the problem
 
 ---
@@ -31,5 +31,20 @@
 2. diff between orbslam2 and multicol-slam (per-file diff)
 3. find out if any major changing parts are missing
 4. generic camera model definition (**to understand why camera model will be added as a vertex in optimization graph**)
-5. g2o edge formulation and deduction (**to find out how much effort is needed to deduct by our own; meanwhile understand why only one edge is defined, is it enough?**)
+5. g2o edge formulation and deduction (**to find out how much effort is needed to deduct by our own; meanwhile understand why loop-related edge doesn't need to define new jacobian matrix?**)
 6. map db and graph node organization structure (**to understand if large changes are needed for this part**)
+
+
+---
+
+## Comparison study
+
+**for orbslam2, there are serveral edges:**
+- EdgeSE3ProjectXYZ & EdgeStereoSE3ProjectXYZ (BA)
+- EdgeSE3ProjectXYZOnlyPose & EdgeStereoSE3ProjectXYZOnlyPose (pose optimizer)
+- EdgeSim3 (essential graph)
+- EdgeSim3ProjectXYZ & EdgeInverseSim3ProjectXYZ (optimize sim3)
+
+1. why pose optimizer needs extra edge? can't we just fix landmark? A: yes, it is what multicol-slam does and we can change the orbslam formulation as well. so essential multicol-slam eliminates pose optimizer related edge.
+2. difference between edgesim3 with others? doesn't multicol-slam use essential graph? A: it is like pose graph edge; it uses.
+3. doesn't multicol-slam use optimizer_sim3? A: yes; it uses.

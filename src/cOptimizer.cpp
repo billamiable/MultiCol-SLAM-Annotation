@@ -175,7 +175,7 @@ namespace MultiColSLAM
 			// for later save the map from the continous to map point idxs
 			mapPointId_to_cont_g2oId[pMP->mnId] = currVertexIdx;
 
-			vPoint->setFixed(poseOnly);
+			vPoint->setFixed(poseOnly); // add flag to determine if only optimize pose or not
 			if (!poseOnly)
 				redundancy -= vPoint->dimension();
 			vPoint->setMarginalized(true);
@@ -374,7 +374,7 @@ namespace MultiColSLAM
 					VertexPointXYZ* vPoint = new VertexPointXYZ(); // seem to be same as before
 					vPoint->setEstimate(pMP->GetWorldPos());
 					vPoint->setId(currVertexIdx);
-					vPoint->setFixed(true);
+					vPoint->setFixed(true); // yep, for pose optimizer, landmarks are fixed
 
 					optimizer.addVertex(vPoint);
 					pointIdx = currVertexIdx;
@@ -692,7 +692,7 @@ namespace MultiColSLAM
 			mapPointId_to_cont_g2oId[pMP->mnId] = currVertexIdx;
 			vPoint->setId(currVertexIdx);
 
-			vPoint->setFixed(false);
+			vPoint->setFixed(false); // for local ba, landmarks are not fixed 
 			vPoint->setMarginalized(true);
 
 			if (!vPoint->fixed())

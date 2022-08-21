@@ -37,6 +37,9 @@
 #include "cConverter.h"
 #include "g2o_MultiCol_vertices_edges.h"
 
+// TODO seems that here, it also didn't follow multi-camera formulation?
+//      I got it, here it only uses the virtual body frame to optimize
+//      thus only the way for projection is changed.
 namespace MultiColSLAM
 {
 	/**
@@ -144,6 +147,7 @@ namespace MultiColSLAM
 			int camIdx = keypoint_to_cam1.find(ptIdx)->second;
 			cv::Vec4d v_in_cam = cConverter::invMat(camSys1->Get_M_c(camIdx))*cConverter::toVec4d(v);
 			// not world2to cam but only projection
+			// for sure, camera model is involved here
 			camSys1->GetCamModelObj(camIdx).WorldToImg(
 				v_in_cam(0), v_in_cam(1), v_in_cam(2), res(0), res(1));
 			return res;
