@@ -143,10 +143,14 @@ namespace MultiColSLAM
 		cMultiCamSys_* camSys2;
 
 		// it is very likely that we can directly use the current g2o version, only changing the projection part
+		// in my view, i would say we can use this!
+		// but it's interesting why no jacobian deduction is needed?
 		cv::Vec2d cam_map1(const Eigen::Vector3d& v, int ptIdx) const
 		{
 			cv::Vec2d res;
+			// same as method in optimizer.cpp
 			int camIdx = keypoint_to_cam1.find(ptIdx)->second;
+			// same as g2o se3 edge definition
 			cv::Vec4d v_in_cam = cConverter::invMat(camSys1->Get_M_c(camIdx))*cConverter::toVec4d(v);
 			// not world2to cam but only projection
 			// for sure, camera model is involved here

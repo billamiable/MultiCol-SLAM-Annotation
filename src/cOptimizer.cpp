@@ -386,6 +386,10 @@ namespace MultiColSLAM
 				else
 					pointIdx = mapPointId_to_cont_g2oId.find(pMP->mnId)->second;
 
+				// same as definition in g2o edge definition
+				// [keypoint_id : cam_id]
+				// therefore, it's actually looping through all landmarks for certain MultiFrame
+				// then finding corresponding camera to finish the camera projection operation
 				int cam = pFrame->keypoint_to_cam.find(i)->second; // indirect indexing for camera
 
 				cv::KeyPoint kpUn = pFrame->mvKeys[i]; // direct indexing
