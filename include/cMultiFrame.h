@@ -104,6 +104,9 @@ namespace MultiColSLAM
 		std::vector<cv::Mat> mDescriptorMasks;
 
 		// MapPoints associated to keypoints, NULL pointer if not association
+		// note that this isn't the current multi-frame's landmarks
+		// instead it's the world landmarks that are associated with current multi-frame
+		// also it corresponds to keypoints according to index for vector
 		std::vector<cMapPoint*> mvpMapPoints;
 
 		// Flag to identify outlier associations

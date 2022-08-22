@@ -350,24 +350,29 @@ namespace MultiColSLAM
 		std::vector<double> vInvSigmas2;
 		std::vector<size_t> vnIndexEdge;
 
-		const int N = pFrame->mvpMapPoints.size(); // all mappoints from different cameras
+		// all associated landmarks in world coordinate
+		const int N = pFrame->mvpMapPoints.size();
 		vpEdges.reserve(N);
 		vVertices.reserve(N);
 		vInvSigmas2.reserve(N);
 		vnIndexEdge.reserve(N);
+		// 3D-2D matching pairs
 		std::unordered_map<int, int> mapPt_2_obs_idx; // newly defined data structure
 		int pointIdx = 0;
 		int nInitialCorrespondences = 0;
+		// loop through all asscoiated landmarks
 		for (int i = 0; i < N; ++i)
 		{
 			cMapPoint* pMP = pFrame->mvpMapPoints[i];
 			pFrame->mvbOutlier[i] = false;
 
+			// association is found, null for no association
 			if (pMP)
 			{
-				// normally will go into this block first
+				// normally will go into this block first, it's using to add landmark vertex
 				if (mapPt_2_obs_idx.count(pMP->mnId) <= 0)
 				{
+					// [landmark_id: keypoint_id]
 					mapPt_2_obs_idx[pMP->mnId] = i;
 
 					// 3D landmark
