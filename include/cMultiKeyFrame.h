@@ -82,6 +82,7 @@ namespace MultiColSLAM
 		DBoW2::BowVector GetBowVector(int& c);
 
 		// Covisibility graph functions
+		// similar to orbslam2
 		void AddConnection(cMultiKeyFrame* pKF, const int &weight);
 		void EraseConnection(cMultiKeyFrame* pKF);
 		void UpdateConnections();
@@ -93,6 +94,7 @@ namespace MultiColSLAM
 		int GetWeight(cMultiKeyFrame* pKF);
 
 		// Spanning tree functions
+		// similar to orbslam2
 		void AddChild(cMultiKeyFrame* pKF);
 		void EraseChild(cMultiKeyFrame* pKF);
 		void ChangeParent(cMultiKeyFrame* pKF);
@@ -101,6 +103,7 @@ namespace MultiColSLAM
 		bool hasChild(cMultiKeyFrame* pKF);
 
 		// Loop Edges
+		// similar to orbslam2
 		void AddLoopEdge(cMultiKeyFrame* pKF);
 		std::set<cMultiKeyFrame*> GetLoopEdges();
 
@@ -124,6 +127,7 @@ namespace MultiColSLAM
 		std::vector<cv::Vec3d> GetKeyPointsRays() const;
 
 		// descriptor get functions
+		// TODO seems to be newly added funcs? why descriptor has more funcs defined?
 		cv::Mat GetDescriptor(const int& cam, const size_t &idx) const;
 		const uint64_t* GetDescriptorRowPtr(const int& cam, const size_t &idx) const; // this is waaaayy faster
 		std::vector<cv::Mat> GetAllDescriptors() const { return mDescriptors; }
@@ -179,6 +183,7 @@ namespace MultiColSLAM
 		double mTimeStamp;
 
 		// Grid (to speed up feature matching)
+		// aligns with my understanding
 		std::vector<int> mnGridCols;
 		std::vector<int> mnGridRows;
 		std::vector<double> mfGridElementWidthInv;
@@ -240,6 +245,7 @@ namespace MultiColSLAM
 		void SetLoopCandidate(const bool ref);
 		int imageId;
 
+	// seems that more variables are inside protected compared to multi-frame data structure
 	protected:
 
 		bool mdBRIEF;
@@ -298,6 +304,7 @@ namespace MultiColSLAM
 		std::vector<double> mvLevelSigma2;
 		std::vector<double> mvInvLevelSigma2;
 
+		// link to the map db
 		cMap* mpMap;
 
 		std::mutex mMutexPose;

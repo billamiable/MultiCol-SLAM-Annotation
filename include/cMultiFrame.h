@@ -77,6 +77,7 @@ namespace MultiColSLAM
 		double mTimeStamp;
 
 		// contains all cameras
+		// camera model inside for projection
 		cMultiCamSys_ camSystem;
 
 		// Number of KeyPoints
@@ -87,12 +88,12 @@ namespace MultiColSLAM
 		// Vector of keypoints 2d
 		// and corresponding bearing vectors 3d
 		// for each camera
-		// TODO is here the total keypoints or only for one camera?
-		//      seems like the total, but how to distinguish?
+		// the total keypoints for all cameras, use keypoint_to_cam to distinguish between cameras
 		std::vector<cv::KeyPoint> mvKeys;
-		std::vector<cv::Vec3d>    mvKeysRays; // 3D observation rays
+		std::vector<cv::Vec3d>    mvKeysRays; // 3D observation rays TODO what't this?
 
 		// Bag of Words Vector structures
+		// TODO check any difference for BoW-related stuff?
 		DBoW2::BowVector mBowVec;
 		std::vector<DBoW2::BowVector> mBowVecs;
 		DBoW2::FeatureVector mFeatVec;
@@ -100,7 +101,7 @@ namespace MultiColSLAM
 		// ORB descriptor, each row associated to a keypoint
 		// descriptors for each camera
 		std::vector<cv::Mat> mDescriptors;
-		// learned descriptor masks
+		// learned descriptor masks TODO what's this?
 		std::vector<cv::Mat> mDescriptorMasks;
 
 		// MapPoints associated to keypoints, NULL pointer if not association
@@ -112,6 +113,7 @@ namespace MultiColSLAM
 		// Flag to identify outlier associations
 		std::vector<bool> mvbOutlier;
 
+		// TODO seems to be newly added data structure to speed up matching, similar to ours
 		// Keypoints are assigned to cells in a grid 
 		// to reduce matching complexity when projecting MapPoints
 		std::vector<double> mfGridElementWidthInv;
@@ -164,11 +166,12 @@ namespace MultiColSLAM
 		// descriptors and keypoints and the image wise indexes
 		// it was observed in
 		// [cont_id : local_image_id]
-		// TODO understand this..
+		// TODO understand this.. seems to related with descriptor? but how?
 		std::unordered_map<size_t, int> cont_idx_to_local_cam_idx;
 
 		// pose-related operations are all overwritten
 		cv::Matx<double, 4, 4> GetPose() { return camSystem.Get_M_t(); }
+		// another form of Mt, in the format of 6d vector
 		cv::Matx<double, 6, 1> GetPoseMin() { return camSystem.Get_M_t_min(); }
 
 		void SetPose(cv::Matx44d& T) { camSystem.Set_M_t(T); }
