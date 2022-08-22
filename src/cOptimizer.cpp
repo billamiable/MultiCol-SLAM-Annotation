@@ -568,7 +568,7 @@ namespace MultiColSLAM
 		if (pbStopFlag)
 			optimizer.setForceStopFlag(pbStopFlag);
 
-		// TODO what is the extra stuff for g2o optimization
+		// set terminate criteria for bundle adjustment and pose estimation for performance
 		g2o::SparseOptimizerTerminateAction* terminateAction = 0;
 		terminateAction = new g2o::SparseOptimizerTerminateAction;
 		terminateAction->setGainThreshold(1e-6);

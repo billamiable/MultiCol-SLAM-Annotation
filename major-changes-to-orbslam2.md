@@ -11,6 +11,7 @@
 7. due to the introduce of virtual body frame which has no real keypoints and landmarks, therefore all the g2o-related edges need to be re-written; moreover, the current implementation is deducted using generalized camera model, we will start with perspective camera model only for realsense, so new deduction should be derived (**biggest challenge for now**)
 8. during optimization, instead of only adding edge for single camera, we need to add edges for all the cameras; meanwhile, we may also need to add edges for nearby cameras which have view overlap (**optional**)
 9. initialization stage should be designed separately: **for realsense camera, only one frame is enough for initialization, therefore maybe just directly initialize by itself for each camera at a certain starting point**
+10. relocalization (**use OpenGV for re-localization (GP3P) and relative orientation estimation during initialization (Stewenius)**)
 
 
 ### tracker-server communication (**in the first stage, we wil only achieve the tracker part**)
@@ -48,3 +49,16 @@
 1. why pose optimizer needs extra edge? can't we just fix landmark? A: yes, it is what multicol-slam does and we can change the orbslam formulation as well. so essential multicol-slam eliminates pose optimizer related edge.
 2. difference between edgesim3 with others? doesn't multicol-slam use essential graph? A: it is like pose graph edge; it uses, but it doesn't need to define new jacobian matrix since only two poses are used.
 3. doesn't multicol-slam use optimizer_sim3? A: yes; it uses, **but it doesn't need to define new jacobian matrix. It's interesting and we may be able to refer to this formulation instead of se3 one. check if the assumption is valid or not? in this case, no jacobian deduction is needed!!! after comparison, I think the assumption is correct since in essence it is reprojection error except for different camera projection method!** (why multicol-slam need to define new edge???)
+
+---
+
+## TODO-List
+
+1. g2o doublecheck (sync with George)
+2. per-file check
+3. multi-frame data structure check
+4. map db & graph node check
+5. initialization check
+6. opengv check
+7. major part summarization
+8. generic model

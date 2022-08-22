@@ -34,7 +34,7 @@ void EdgeProjectXYZ2MCS::computeError()
 
 	// get all vertices
 	// we need 4:
-	// 1. the cameras interior orientation that maps our point (camera params that are used for projection)
+	// 1. the cameras interior orientation that maps our point (camera params for forward/backward projection)
 	// 2. the world point
 	// 3. the relative orientation of the camera in the MCS frame
 	// 4. the absolute orientation of the MCS (pose for body frame)
