@@ -56,11 +56,11 @@
 
 1. g2o doublecheck (sync with George) - derived jacobian deduction, only multiply fixed extrinsic, should be fine
 2. match pair check - checked, remember that mvpMapPoints actually means matched landmarks
-3. multi-frame data structure check
-4. map db & graph node check
-5. initialization check
-6. opengv check
-7. per-file check
-8. way to find matches
+3. way to find matches - checked, simply loop through all landmarks to match by finding corresponding camera
+4. multi-frame data structure check
+5. map db & graph node check
+6. initialization check
+7. opengv check
+8. per-file check
 9. major part summarization
 10. generic model

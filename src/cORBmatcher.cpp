@@ -21,7 +21,7 @@
 /*
 * MultiCol-SLAM is based on ORB-SLAM2 which was also released under GPLv3
 * For more information see <https://github.com/raulmur/ORB_SLAM2>
-* Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+* Raï¿½l Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
 */
 
 #include "cORBmatcher.h"
@@ -1987,6 +1987,7 @@ int cORBmatcher::SearchBySim3(cMultiKeyFrame *pKF1,
     return nFound;
 }
 
+// take this as an example
 int cORBmatcher::SearchByProjection(cMultiFrame &CurrentFrame,
 	const cMultiFrame &LastFrame, double th)
 {
@@ -2000,6 +2001,8 @@ int cORBmatcher::SearchByProjection(cMultiFrame &CurrentFrame,
 
 	cMultiCamSys_& camSys = CurrentFrame.camSystem;
 
+	// essentially, the overall pipeline is similar to single-camera slam
+	// it doesn't specify different cameras, instead it only adds camera finding during looping all landmarks
 	for (size_t i = 0, iend = LastFrame.mvpMapPoints.size(); i < iend; ++i)
 	{
 		cMapPoint* pMP = LastFrame.mvpMapPoints[i];
@@ -2039,6 +2042,7 @@ int cORBmatcher::SearchByProjection(cMultiFrame &CurrentFrame,
 			int idxDescLast = LastFrame.cont_idx_to_local_cam_idx.find(i)->second;
 			const uint64_t* dMP = LastFrame.mDescriptors[cam].ptr<uint64_t>(idxDescLast);
 			const uint64_t* dMP_mask = 0;
+			// TODO check what's mask?
 			if (havingMasks)
 				dMP_mask = LastFrame.mDescriptorMasks[cam].ptr<uint64_t>(idxDescLast);
 
