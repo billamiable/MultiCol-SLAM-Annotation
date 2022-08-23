@@ -62,9 +62,33 @@
 6. map db & graph node check - both treat multi-camera as one, same for map db, graph node is inside keyframe
 7. initialization check - checked, target on realsense and follow the orbslam2 stereoinitialization pipeline
 8. opengv check - checked, relocalization needs better algorithm, leaves GPNP (triangulation) for future 
-9. per-file check
+9. per-file check - file-level checked, doesn't see much change
 10. work with odom/imu
 11. major part summarization
 12. rtabmap
 13. GPNP
 14. generic model
+
+
+---
+## File comparison
+
+### include
+
+newly added (with cpp file)
+- cam_model_omni.h - checked, generic camera model definition, no use for now
+- cam_system_omni.h - checked, multi-camera system definition, need to add
+- cMapPublisher.h - checked, essentially same as MapDrawer.h
+- cMultiFramePublisher.h - checked, essentially same as FrameDrawer.h
+- g2o_MultiCol_sim3_expmap.h - checked, need to add
+- g2o_Multicol_vertices_edges.h - checked, need to add partly
+- mdBRIEFextractor.h (sorely) - checked, no use for now
+- mdBRIEFextractor1.h (sorely) - checked, no use for now
+- mdBRIEFextractorOct.h - checked, no use for now
+- misc.h - checked, all kinds of definitions, easy to reproduce
+- cOptimizerLoopStuff.cpp - checked, belong to optimizer, need to add
+
+deleted (with cpp file)
+- FrameDrawer.h - checked, see above
+- MapDrawer.h - checked, see above
+- PnPsolver.h - checked, they don't use traditional PnP

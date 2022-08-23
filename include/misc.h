@@ -26,6 +26,7 @@
 #include <vector>
 #include <Eigen/Dense>
 
+// all kinds of definitions, doesn't take a lot of effort
 namespace MultiColSLAM
 {
 	// some misc defines
