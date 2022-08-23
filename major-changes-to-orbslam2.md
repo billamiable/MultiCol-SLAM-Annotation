@@ -59,7 +59,7 @@
 3. way to find matches - checked, simply loop through all landmarks to match by finding corresponding camera
 4. multi-frame data structure check - checked, BoW and descriptor related stuff needs further examination
 5. BoW & descriptor check - checked, descriptor uses vector and BoW used concated descriptors for all cameras
-6. map db & graph node check - graph node is inside keyframe and seems the same
+6. map db & graph node check - both treat multi-camera as one, same for map db, graph node is inside keyframe
 7. initialization check
 8. opengv check
 9. per-file check
