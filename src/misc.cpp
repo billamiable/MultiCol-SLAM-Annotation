@@ -22,6 +22,7 @@
 
 namespace MultiColSLAM
 {
+	// TODO investigate if any opengv stuff is involved?
 	cv::Vec3d triangulate_point(
 		const cv::Matx31d& relOri_t12,
 		const cv::Matx33d& relOri_R12,

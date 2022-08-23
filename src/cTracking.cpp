@@ -1132,11 +1132,13 @@ bool cTracking::Relocalisation()
     // Compute Bag of Words Vector
     mCurrentFrame.ComputeBoW();
 
-    // Relocalisation is performed when tracking is lost and forced at some stages during loop closing
+    // Relocalisation is performed when tracking is lost and TODO forced at some stages during loop closing
+	// TODO due to the introduction of multi-camera, relocalization will be triggered more frequently?
     // Track Lost: Query KeyFrame Database for keyframe candidates for relocalisation
     vector<cMultiKeyFrame*> vpCandidateKFs;
 	if (!RelocalisationRequested())
         vpCandidateKFs = mpKeyFrameDB->DetectRelocalisationCandidates(&mCurrentFrame);
+	// TODO what's the definition of force relocalization?
     else // Forced Relocalisation: Relocate against local window around last keyframe
     {
 		std::unique_lock<std::mutex> lock(mMutexForceRelocalisation);
@@ -1151,10 +1153,14 @@ bool cTracking::Relocalisation()
         return false;
 
     const int nKFs = vpCandidateKFs.size();
+	// same as single-camera slam
     // We perform first an ORB matching with each candidate
     // If enough matches are found we setup a PnP solver
 	cORBmatcher matcher(0.9, checkOrientation, mCurrentFrame.DescDims(), mCurrentFrame.HavingMasks());
 
+	// start the use of opengv
+	// it seems reasonable to me to have a extra algorithm specific for multi-camera use cases
+	// TODO it's worthwhile to investigate this algorithm, or we can just use it (check license)
 	vector<opengv::bearingVectors_t> matchedBearingVecs(nKFs);
 	vector<opengv::points_t> points3D(nKFs);
 	opengv::translations_t camOffsets = camSystem.Get_All_t_c_ogv();
@@ -1185,6 +1191,8 @@ bool cTracking::Relocalisation()
                 vbDiscarded[i] = true;
                 continue;
             }
+			// in orbslam2, here it will construct pnp_solver
+			// TODO will have specify data from difference cameras?
             else
             {
 				// bearing vectors
@@ -1244,6 +1252,7 @@ bool cTracking::Relocalisation()
 			camRotations);
 #undef max
 #undef min
+		// directly use the algorithm in opengv
 		opengv::sac::Ransac < opengv::sac_problems::absolute_pose::AbsolutePoseSacProblem >
 			ransac;
 		std::shared_ptr<opengv::sac_problems::absolute_pose::AbsolutePoseSacProblem>
@@ -1268,6 +1277,8 @@ bool cTracking::Relocalisation()
 		}
 		else
 		{
+			// this is the core algorithm used! TODO investigate GPNP
+			// GPNP focuses on multi-camera non-central absolute pose problem
 			trafo = opengv::absolute_pose::gpnp(adapter, ransac.inliers_);
 
 			cv::Matx44d trafoOut = cConverter::ogv2ocv(trafo);

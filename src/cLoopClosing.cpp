@@ -581,6 +581,8 @@ namespace MultiColSLAM
 			}
 		}
 
+		// TODO why is it necessary to force relocalization when correcting loop?
+		//      it's the only place where forcerelocalisation() is used!
 		mpTracker->ForceRelocalisation();
 		cout << "======= Starting Essential Graph Optimization ========" << endl;
 		cOptimizer::OptimizeEssentialGraph(mpMap,

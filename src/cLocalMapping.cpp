@@ -220,6 +220,7 @@ namespace MultiColSLAM
 		}
 	}
 
+	// rgbd and stereo will also go into this block
 	void cLocalMapping::CreateNewMapPoints()
 	{
 		// Take neighbor keyframes in covisibility graph
@@ -236,6 +237,7 @@ namespace MultiColSLAM
 			pixelSize;
 
 		// TODO do that for all cameras!!!
+		// TODO check if camera-to-camera at certain timestamp are also involved?
 		for (size_t i = 0; i < vpNeighKFs.size(); ++i)
 		{
 			const int nrCams = vpNeighKFs[i]->camSystem.GetNrCams();
@@ -307,6 +309,7 @@ namespace MultiColSLAM
 				cv::Vec3d t12 = cConverter::Hom2T(relOri);
 				cv::Matx33d R12 = cConverter::Hom2R(relOri);
 
+				// TODO check if this involves multi-camera?
 				x3D = triangulate_point(t12, R12, ray1, ray2);
 				// now rotate the point to the world frame;
 				cv::Vec4d x3D4(x3D(0), x3D(1), x3D(2), 1.0);
