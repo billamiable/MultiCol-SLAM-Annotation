@@ -93,7 +93,8 @@ namespace MultiColSLAM
 		std::vector<cv::Vec3d>    mvKeysRays; // 3D observation rays TODO what't this?
 
 		// Bag of Words Vector structures
-		// TODO check any difference for BoW-related stuff?
+		// difference: add two vectors here, thus it seems that BoW vector cannot be concat directly
+		// TODO difference between mBowVec and mBowVecs
 		DBoW2::BowVector mBowVec;
 		std::vector<DBoW2::BowVector> mBowVecs;
 		DBoW2::FeatureVector mFeatVec;

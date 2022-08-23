@@ -106,9 +106,11 @@ namespace MultiColSLAM
 	{
 		if (mBowVec.empty() || mFeatVec.empty())
 		{
+			// it is using the total descriptor from all cameras
 			std::vector<cv::Mat> vCurrentDesc = cConverter::toDescriptorVector(mDescriptors);
 			// Feature vector associate features with nodes in the 4th level (from leaves up)
 			// We assume the vocabulary tree has 6 levels, change the 4 otherwise
+			// therefore, the mBowVec should already involve all cameras
 			mpORBvocabulary->transform(vCurrentDesc, mBowVec, mFeatVec, 4);
 		}
 		const int nrCams = camSystem.GetNrCams();
@@ -391,6 +393,7 @@ namespace MultiColSLAM
 		return mBowVec;
 	}
 
+	// this one is never used! thus mBowVecs isn't used!
 	DBoW2::BowVector cMultiKeyFrame::GetBowVector(int& c)
 	{
 		std::unique_lock<std::mutex> lock(mMutexFeatures);
