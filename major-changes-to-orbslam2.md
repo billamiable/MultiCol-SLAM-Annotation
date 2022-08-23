@@ -60,8 +60,10 @@
 4. multi-frame data structure check - checked, BoW and descriptor related stuff needs further examination
 5. BoW & descriptor check - checked, descriptor uses vector and BoW used concated descriptors for all cameras
 6. map db & graph node check - both treat multi-camera as one, same for map db, graph node is inside keyframe
-7. initialization check
+7. initialization check - checked, target on realsense and follow the orbslam2 stereoinitialization pipeline
 8. opengv check
 9. per-file check
-10. major part summarization
-11. generic model
+10. work with odom/imu
+11. major part summarization
+12. rtabmap
+13. generic model

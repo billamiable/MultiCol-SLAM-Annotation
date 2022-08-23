@@ -21,7 +21,7 @@
 /*
 * MultiCol-SLAM is based on ORB-SLAM2 which was also released under GPLv3
 * For more information see <https://github.com/raulmur/ORB_SLAM2>
-* Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+* Raï¿½l Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
 */
 
 #include <opencv2/opencv.hpp>
@@ -242,6 +242,11 @@ bool cTracking::Track()
 
     mLastProcessedState = mState;
 
+	// for multicol-slam, it doesn't support stereo/rgbd camera
+	// therefore, the initialization process is rather complicated!
+	// but since we are targeting on realsense at the first stage,
+	// thus we can use the simple implementation as orbslam2
+	// also each operation is the same except the data inside have doubled/trippled
     if (mState == NOT_INITIALIZED)
     {
         FirstInitialization();
