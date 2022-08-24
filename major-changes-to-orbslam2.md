@@ -95,11 +95,11 @@ deleted (with cpp file)
 
 ## Detailed file comparison
 
-- cConverter
-- misc
-- cORBextractor
-- cORBmatcher
-- cORBVocabular
+- misc - checked, no big deal
+- cConverter - checked, no big deal
+- cORBextractor - checked, nothing to change right now
+- cORBVocabulary - checked, nothing to change right now
+- cORBmatcher - need to check how much effort is needed
 - cSim3Solver
 - cam_system_omni
 - cMappoint
