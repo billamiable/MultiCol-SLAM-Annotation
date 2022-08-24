@@ -8,7 +8,7 @@
 4. similarily, *reference keyframe* would be *reference multi-keyframe*, thus **frame-to-frame tracking would be the tightly-coupled optimization result by forming edge including all the cameras**
 5. within each *multi-frame*, it stores only one timestamp, multiple images and corresponding keypoints, descriptors, landmarks... (all stored together in vectors with indices to distinguish)
 6. to form the *virtual body frame*, *pose* for this frame will be added; meanwhile it will be also connected with *different camera frames* through extrinsic matrices (**fixed**)
-7. due to the introduce of virtual body frame which has no real keypoints and landmarks, therefore all the g2o-related edges need to be re-written; moreover, the current implementation is deducted using generalized camera model, we will start with perspective camera model only for realsense, so new deduction should be derived (**biggest challenge for now**)
+7. due to the introduce of virtual body frame which has no real keypoints and landmarks, therefore all the g2o-related edges need to be re-written; moreover, the current implementation is deducted using generalized camera model, we will start with perspective camera model only for realsense (**turns out that we may be able to avoid the deduction of g2o since the only change for formualtion is the introduction of extrinsic matrix**)
 8. during optimization, instead of only adding edge for single camera, we need to add edges for all the cameras; meanwhile, we may also need to add edges for nearby cameras which have view overlap (**optional**)
 9. initialization stage should be designed separately: **for realsense camera, only one frame is enough for initialization, therefore maybe just directly initialize by itself for each camera at a certain starting point**
 10. relocalization (**use OpenGV for re-localization (GP3P) and relative orientation estimation during initialization (Stewenius)**)
@@ -73,8 +73,6 @@
 ---
 ## File comparison
 
-### include
-
 newly added (with cpp file)
 - cam_model_omni.h - checked, generic camera model definition, no use for now
 - cam_system_omni.h - checked, multi-camera system definition, need to add
@@ -92,3 +90,27 @@ deleted (with cpp file)
 - FrameDrawer.h - checked, see above
 - MapDrawer.h - checked, see above
 - PnPsolver.h - checked, they don't use traditional PnP
+
+---
+
+## Detailed file comparison
+
+- cConverter
+- misc
+- cORBextractor
+- cORBmatcher
+- cORBVocabular
+- cSim3Solver
+- cam_system_omni
+- cMappoint
+- cMultiFrame
+- cMultiKeyFrameDatabase
+- cMap
+- g2o_MultiCol_sim3_expmap
+- g2o_MultiCol_vertices_edges
+- cOptimizer
+- cOptimizerLoopStuff
+- cSystem
+- cTracking
+- cLocalMapping
+- cLoopClosing
