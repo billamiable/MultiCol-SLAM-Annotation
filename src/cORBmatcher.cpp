@@ -2012,6 +2012,7 @@ int cORBmatcher::SearchByProjection(cMultiFrame &CurrentFrame,
 		if (pMP->isBad())
 			continue;
 
+		// newly added, to find corrsponding camera
 		int cam = LastFrame.keypoint_to_cam.find(i)->second;
 		// if this point was not classified to be an outlier
 		if (!LastFrame.mvbOutlier[i])

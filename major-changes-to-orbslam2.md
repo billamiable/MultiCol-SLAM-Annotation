@@ -114,3 +114,23 @@ deleted (with cpp file)
 - cTracking
 - cLocalMapping
 - cLoopClosing
+
+
+---
+
+## Detailed case study for Multi-frame data structure
+
+Take bool Tracking::TrackWithMotionModel() as an example, let's just make a detailed comparison:
+
+1. mCurrentFrame.SetPose:
+   1) don't know why velocity multiplication is different?
+   2) camSystem (including MtMc - pose for each camera) need to be introduced 
+2. matcher.SearchByProjection:
+   1) threshold and search times are different, which indicates changes needed for multi-camera slam (performance tuning time)
+   2) extra work to make the code compatible for mono and stereo/rgbd
+   3) api changes to add camera system as input as well
+   4) changes for condition check (performance tuning)
+   5) descriptor (it's aimed for landmark) management method - newly added method for MultiKeyframe?
+3. PoseOptimization
+   1) g2o early stop strategy
+   2) extra work to make the code compatible for mono and stereo/rgbd
