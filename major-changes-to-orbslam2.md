@@ -111,7 +111,7 @@ deleted (with cpp file)
 - g2o_MultiCol_vertices_edges - checked, adjust accordingly
 - cOptimizer - checked, more adjustments are needed
 - cOptimizerLoopStuff - checked, more adjustments are needed
-- cSystem
+- cSystem - checked, overall the same, less mode supported, leave save traj format
 - cTracking
 - cLocalMapping
 - cLoopClosing
