@@ -109,8 +109,8 @@ deleted (with cpp file)
 - cMap - checked, overall same, leave detailed implementation
 - g2o_MultiCol_sim3_expmap - checked, adjust accordingly
 - g2o_MultiCol_vertices_edges - checked, adjust accordingly
-- cOptimizer
-- cOptimizerLoopStuff
+- cOptimizer - checked, more adjustments are needed
+- cOptimizerLoopStuff - checked, more adjustments are needed
 - cSystem
 - cTracking
 - cLocalMapping
