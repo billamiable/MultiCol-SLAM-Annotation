@@ -185,6 +185,7 @@ namespace MultiColSLAM
 
 	private:
 		bool mdBRIEF;
+		// TODO seems no place will set this as true, so we can omit it?
 		bool masksLearned;
 		int descDimension;
 		int imgCnt;

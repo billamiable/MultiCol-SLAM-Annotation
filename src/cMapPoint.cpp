@@ -21,7 +21,7 @@
 /*
 * MultiCol-SLAM is based on ORB-SLAM2 which was also released under GPLv3
 * For more information see <https://github.com/raulmur/ORB_SLAM2>
-* Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+* Raï¿½l Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
 */
 
 #include "cMapPoint.h"
@@ -291,6 +291,7 @@ namespace MultiColSLAM
 		return static_cast<double>(mnFound) / mnVisible;
 	}
 
+	// TODO what's distinctive descriptor?
 	void cMapPoint::ComputeDistinctiveDescriptors(bool havingMasks)
 	{
 		// Retrieve all observed descriptors
@@ -393,6 +394,7 @@ namespace MultiColSLAM
 		return mDescriptor.clone();
 	}
 
+	// TODO what's descriptor mask??
 	cv::Mat cMapPoint::GetDescriptorMask()
 	{
 		std::unique_lock<std::mutex> lock(mMutexFeatures);

@@ -102,7 +102,7 @@ deleted (with cpp file)
 - cORBmatcher - checked, overall doable, leaves out new descriptor distance and search method
 - cSim3Solver - checked, overall the same, except used refine() in pnp_solver, need to change
 - cam_system_omni - checked, we can avoid majority since no use for generic camera model
-- cMappoint - checked, overall doable, more operations for observation, leave desciptor-related part
+- cMappoint - checked, overall doable, more operations for observation, descriptor-related stuff no big deal - mask not used & CurrentDescriptor not used
 - cMultiFrame - will do
 - cMultiKeyFrame - will do
 - cMultiKeyFrameDatabase - checked, same as BoW_db, func are the same, leave detailed algorithm

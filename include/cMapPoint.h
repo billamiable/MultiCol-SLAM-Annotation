@@ -21,7 +21,7 @@
 /*
 * MultiCol-SLAM is based on ORB-SLAM2 which was also released under GPLv3
 * For more information see <https://github.com/raulmur/ORB_SLAM2>
-* Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
+* Raï¿½l Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
 */
 
 #ifndef MAPPOINT_H
@@ -82,10 +82,10 @@ namespace MultiColSLAM
 		cv::Mat GetDescriptor();
 		cv::Mat GetCurrentDescriptor();
 		cv::Mat GetDescriptorMask();
-		const uint64_t* GetDescriptorPtr();
+		const uint64_t* GetDescriptorPtr(); // NOT USED
 		const uint64_t* GetDescriptorMaskPtr();
-		const uint64_t* GetCurrentDescriptorPtr();
-		void UpdateCurrentDescriptor(cv::Mat& currDesc);
+		const uint64_t* GetCurrentDescriptorPtr(); // NOT USED
+		void UpdateCurrentDescriptor(cv::Mat& currDesc); // USED BUT DEPRECATED
 
 		void UpdateNormalAndDepth();
 
@@ -127,7 +127,7 @@ namespace MultiColSLAM
 		cv::Vec3d mNormalVector;
 		// Best descriptor to fast matching
 		cv::Mat mDescriptor;
-		cv::Mat mCurrentDescriptor;
+		cv::Mat mCurrentDescriptor; // NOT USED
 		cv::Mat mDescriptorMask; // learned mask of the descriptor
 
 		double meanPtError;
