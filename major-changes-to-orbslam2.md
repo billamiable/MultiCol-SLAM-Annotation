@@ -107,8 +107,8 @@ deleted (with cpp file)
 - cMultiKeyFrame - will do
 - cMultiKeyFrameDatabase - checked, same as BoW_db, func are the same, leave detailed algorithm
 - cMap - checked, overall same, leave detailed implementation
-- g2o_MultiCol_sim3_expmap
-- g2o_MultiCol_vertices_edges
+- g2o_MultiCol_sim3_expmap - checked, adjust accordingly
+- g2o_MultiCol_vertices_edges - checked, adjust accordingly
 - cOptimizer
 - cOptimizerLoopStuff
 - cSystem
