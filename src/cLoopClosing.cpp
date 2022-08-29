@@ -435,6 +435,7 @@ namespace MultiColSLAM
 		return false;
 	}
 
+	// Inside correct loop, force relocalization is triggered
 	void cLoopClosing::CorrectLoop()
 	{
 
@@ -583,6 +584,7 @@ namespace MultiColSLAM
 
 		// TODO why is it necessary to force relocalization when correcting loop?
 		//      it's the only place where forcerelocalisation() is used!
+		//      to be aware, it is triggered in tracker
 		mpTracker->ForceRelocalisation();
 		cout << "======= Starting Essential Graph Optimization ========" << endl;
 		cOptimizer::OptimizeEssentialGraph(mpMap,

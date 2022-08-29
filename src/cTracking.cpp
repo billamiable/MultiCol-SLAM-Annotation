@@ -1127,6 +1127,8 @@ void cTracking::UpdateReferenceKeyFrames()
     mpReferenceKF = pKFmax;
 }
 
+// inside relocalization at tracker, there are two cases
+// one is force relocalization
 bool cTracking::Relocalisation()
 {
     // Compute Bag of Words Vector
@@ -1139,6 +1141,8 @@ bool cTracking::Relocalisation()
 	if (!RelocalisationRequested())
         vpCandidateKFs = mpKeyFrameDB->DetectRelocalisationCandidates(&mCurrentFrame);
 	// TODO what's the definition of force relocalization?
+	// rather than detect candidates in db, here it just directly use local window
+	// but don't understand why this is useful?? all the others are the same
     else // Forced Relocalisation: Relocate against local window around last keyframe
     {
 		std::unique_lock<std::mutex> lock(mMutexForceRelocalisation);
