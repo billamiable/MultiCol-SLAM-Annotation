@@ -113,7 +113,7 @@ deleted (with cpp file)
 - cOptimizerLoopStuff - checked, more adjustments are needed
 - cSystem - checked, overall the same, less mode supported, leave save traj format
 - cTracking - checked, diff: forcerelocalization, initialization, trackpreviousframe vs trackreferencekeyframe, update reference(points, keyframes) vs local (map, points, keyframes), SearchReferencePointsInFrustum vs SearchLocalPoints
-- cLocalMapping
+- cLocalMapping - checked, overall the same, changes in detailed func
 - cLoopClosing
 
 
