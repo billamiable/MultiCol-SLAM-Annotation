@@ -101,7 +101,7 @@ deleted (with cpp file)
 - cORBVocabulary - checked, nothing to change right now
 - cORBmatcher - checked, overall doable, leaves out new descriptor distance and search method
 - cSim3Solver - checked, overall the same, except used refine() in pnp_solver, need to change
-- cam_system_omni
+- cam_system_omni - checked, we can avoid majority since no use for generic camera model
 - cMappoint
 - cMultiFrame
 - cMultiKeyFrameDatabase
