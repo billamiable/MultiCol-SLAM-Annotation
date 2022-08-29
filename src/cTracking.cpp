@@ -726,6 +726,8 @@ void cTracking::CreateInitialMap(cv::Matx33d &Rcw, cv::Vec3d &tcw, int leadingCa
     mState = WORKING;
 }
 
+// TODO why don't track reference keyframe, rather than track previous frame?
+//      the implementation is not difficult though
 bool cTracking::TrackPreviousFrame()
 {
 	cORBmatcher matcher(0.8, checkOrientation, 
