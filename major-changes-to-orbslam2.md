@@ -103,8 +103,9 @@ deleted (with cpp file)
 - cSim3Solver - checked, overall the same, except used refine() in pnp_solver, need to change
 - cam_system_omni - checked, we can avoid majority since no use for generic camera model
 - cMappoint - checked, overall doable, more operations for observation, leave desciptor-related part
-- cMultiFrame
-- cMultiKeyFrameDatabase
+- cMultiFrame - will do
+- cMultiKeyFrame - will do
+- cMultiKeyFrameDatabase - checked, same as BoW_db, func are the same, leave detailed algorithm
 - cMap
 - g2o_MultiCol_sim3_expmap
 - g2o_MultiCol_vertices_edges
