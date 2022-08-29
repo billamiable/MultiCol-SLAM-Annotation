@@ -99,7 +99,7 @@ deleted (with cpp file)
 - cConverter - checked, no big deal
 - cORBextractor - checked, nothing to change right now
 - cORBVocabulary - checked, nothing to change right now
-- cORBmatcher - need to check how much effort is needed
+- cORBmatcher - checked, overall doable, leaves out new descriptor distance and search method
 - cSim3Solver
 - cam_system_omni
 - cMappoint
