@@ -1028,6 +1028,7 @@ void cTracking::UpdateReference()
     UpdateReferencePoints();
 }
 
+// although the func name is changed, in essence, there are all used for local map
 void cTracking::UpdateReferencePoints()
 {
     mvpLocalMapPoints.clear();
@@ -1055,6 +1056,8 @@ void cTracking::UpdateReferencePoints()
     }
 }
 
+// TODO seems to have some adjustments on the local map definition
+//      but overall, i think it is no big deal, the underlying logic is similar
 void cTracking::UpdateReferenceKeyFrames()
 {
     // Each map point vote for the keyframes in which it has been observed
