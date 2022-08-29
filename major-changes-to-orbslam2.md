@@ -112,7 +112,7 @@ deleted (with cpp file)
 - cOptimizer - checked, more adjustments are needed
 - cOptimizerLoopStuff - checked, more adjustments are needed
 - cSystem - checked, overall the same, less mode supported, leave save traj format
-- cTracking - checked, diff: forcerelocalization (done, don't know why), initialization (not much to do), trackpreviousframe vs trackreferencekeyframe (new window search, don't know why, not difficult to implement), update reference(points, keyframes) vs local (map, points, keyframes) (done, no big diff with changes in local map definition), SearchReferencePointsInFrustum vs SearchLocalPoints
+- cTracking - checked, diff: forcerelocalization (done, don't know why), initialization (not much to do), trackpreviousframe vs trackreferencekeyframe (new window search, don't know why, not difficult to implement), update reference(points, keyframes) vs local (map, points, keyframes) (done, no big diff with changes in local map definition), SearchReferencePointsInFrustum vs SearchLocalPoints (done, no big diff, similar to before)
 - cLocalMapping - checked, overall the same, changes in detailed func
 - cLoopClosing - checked, overall the same except not using global BA, changes in detailed func
 

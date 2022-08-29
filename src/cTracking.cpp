@@ -957,6 +957,7 @@ void cTracking::CreateNewKeyFrame()
     mpLastKeyFrame = pKF;
 }
 
+// in essence, it is also similar to search local mappoints
 int cTracking::SearchReferencePointsInFrustum()
 {
     // Do not search map points already matched
