@@ -114,7 +114,7 @@ deleted (with cpp file)
 - cSystem - checked, overall the same, less mode supported, leave save traj format
 - cTracking - checked, diff: forcerelocalization, initialization, trackpreviousframe vs trackreferencekeyframe, update reference(points, keyframes) vs local (map, points, keyframes), SearchReferencePointsInFrustum vs SearchLocalPoints
 - cLocalMapping - checked, overall the same, changes in detailed func
-- cLoopClosing
+- cLoopClosing - checked, overall the same except not using global BA, changes in detailed func
 
 
 ---
