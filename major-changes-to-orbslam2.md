@@ -148,7 +148,7 @@ First, list potential parts that need to be changed:
 ### Odom
 
 - get odom data (frame definition) - checked, finally you are using the relative pose of specific frame, therefore to obtain the value for other frames, only multiply by the extrinsic matrix should be fine.
-- mono init
+- mono init - checked, no use in multi-camera support, make it compatible with multi-frame class
 - g2o definition (pose graph edge)
 - mapping mode - local ba
 - localization mode - pose optimizer
