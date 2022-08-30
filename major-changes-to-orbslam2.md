@@ -137,3 +137,30 @@ Take bool Tracking::TrackWithMotionModel() as an example, let's just make a deta
 3. PoseOptimization
    1) g2o early stop strategy
    2) extra work to make the code compatible for mono and stereo/rgbd
+
+
+---
+
+## Compatible with odom and imu module
+
+First, list potential parts that need to be changed:
+
+### Odom
+
+- get odom data (frame definition)
+- mono init
+- g2o definition (pose graph edge)
+- mapping mode - local ba
+- localization mode - pose optimizer
+- tracking lost logic
+
+
+### Imu
+
+- preintegration
+- g2o definition (vertex and edge, **pay attention to the effort of change**)
+- imu initialization (coordinate transform, **go into details**)
+- local inertial ba
+- tracking lost logic
+
+All the things would be affected if we can have a good design of the multi-frame data structure, which can degeneralize into traditional frame when only one camera is used as the input.
