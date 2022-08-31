@@ -161,6 +161,6 @@ First, list potential parts that need to be changed:
 - g2o definition (vertex and edge, **pay attention to the effort of change**)
 - imu initialization (coordinate transform, **go into details**)
 - local inertial ba
-- tracking lost logic
+- tracking lost logic - checked, same as preintegration, coordinate is VIP
 
 All the things would be affected if we can have a good design of the multi-frame data structure, which can degeneralize into traditional frame when only one camera is used as the input.
