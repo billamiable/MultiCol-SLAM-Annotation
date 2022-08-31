@@ -157,7 +157,7 @@ First, list potential parts that need to be changed:
 
 ### Imu
 
-- preintegration
+- preintegration - checked, should be fine, as long as world coordinate is the same as single-camera image frame
 - g2o definition (vertex and edge, **pay attention to the effort of change**)
 - imu initialization (coordinate transform, **go into details**)
 - local inertial ba
