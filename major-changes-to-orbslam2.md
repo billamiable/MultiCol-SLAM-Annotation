@@ -152,7 +152,7 @@ First, list potential parts that need to be changed:
 - g2o definition (pose graph edge) - checked, don't need to change
 - mapping mode (local ba) - checked, defined for virtual body frame should be fine
 - localization mode (pose optimizer) - checked, same as local ba
-- tracking lost logic
+- tracking lost logic - checked, should be similar, essentially is the relative pose
 
 
 ### Imu
