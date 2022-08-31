@@ -64,7 +64,7 @@
 8. opengv check - checked, relocalization needs better algorithm, leaves GPNP (triangulation) for future 
 9. per-file check - file-level checked, finished all the major module check, overall meet expectation
 10. major part summarization - summarized all known modules, except compatible-related stuff
-11. work with odom/imu - check other part effort besides g2o related definition
+11. work with odom/imu - checked, define good multi-frame and set default virtual body frame as first camera's image frame
 12. localization mode - how to satisfy the logic and data structure (degeneralize multi-(key)frame to (key)frame)
 13. detect loop, map merge
 14. rtabmap
