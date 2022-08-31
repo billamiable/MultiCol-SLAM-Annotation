@@ -159,7 +159,7 @@ First, list potential parts that need to be changed:
 
 - preintegration - checked, should be fine, as long as world coordinate is the same as single-camera image frame
 - g2o definition (vertex and edge) - checked, changes are mainly on the keyframe vertex interface to accept multi-keyframe
-- imu initialization (coordinate transform, **go into details**)
+- imu initialization (coordinate transform) - checked, coordinate transform is correct as long as world coordinate is same 
 - local inertial ba - checked, no big change except feeding multi-keyframe instead of keyframe
 - tracking lost logic - checked, same as preintegration, coordinate is VIP
 
