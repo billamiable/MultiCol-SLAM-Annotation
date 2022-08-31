@@ -158,7 +158,7 @@ First, list potential parts that need to be changed:
 ### Imu
 
 - preintegration - checked, should be fine, as long as world coordinate is the same as single-camera image frame
-- g2o definition (vertex and edge, **pay attention to the effort of change**)
+- g2o definition (vertex and edge) - checked, VIP is to degeneralize to frame with the right coordinate
 - imu initialization (coordinate transform, **go into details**)
 - local inertial ba
 - tracking lost logic - checked, same as preintegration, coordinate is VIP
