@@ -158,9 +158,9 @@ First, list potential parts that need to be changed:
 ### Imu
 
 - preintegration - checked, should be fine, as long as world coordinate is the same as single-camera image frame
-- g2o definition (vertex and edge) - checked, VIP is to degeneralize to frame with the right coordinate
+- g2o definition (vertex and edge) - checked, changes are mainly on the keyframe vertex interface to accept multi-keyframe
 - imu initialization (coordinate transform, **go into details**)
-- local inertial ba
+- local inertial ba - checked, no big change except feeding multi-keyframe instead of keyframe
 - tracking lost logic - checked, same as preintegration, coordinate is VIP
 
-All the things would be affected if we can have a good design of the multi-frame data structure, which can degeneralize into traditional frame when only one camera is used as the input.
+All the things would be affected if we can have a good design of the multi-frame data structure, which can degeneralize into traditional frame with the right coordinate (i.e. set default body frame as first camera's image frame) when only one camera is used as the input.
