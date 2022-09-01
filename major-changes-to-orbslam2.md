@@ -178,9 +178,9 @@ Similarly, list all items that might need to change:
   3) server landmark request
   4) server landmark result
 - tracker send relocalization request
-- server perform relocalization
+- server perform relocalization - checked, won't change if we don't change server for now
 - tracker initialization by server
 - tracker request server landmark
-- server obtain server landmark
+- server obtain server landmark - checked, won't change if we don't change server for now
 - tracker receive server landmark
 - tracker use server landmark while tracking
