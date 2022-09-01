@@ -180,7 +180,7 @@ Similarly, list all items that might need to change:
 - tracker send relocalization request - checked, doable by degeneralize input multi-frame and pack into keyframe
 - server perform relocalization - checked, won't change if we don't change server for now
 - tracker initialization by server - checked, doable by using keyframe result to initialize multi-frame
-- tracker request server landmark
+- tracker request server landmark - checked, easiler than relocalization request
 - server obtain server landmark - checked, won't change if we don't change server for now
 - tracker receive server landmark
 - tracker use server landmark while tracking
