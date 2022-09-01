@@ -173,10 +173,10 @@ All the things would be affected if we can have a good design of the multi-frame
 Similarly, list all items that might need to change:
 
 - tracker-server communication
-  1) relocalization request
-  2) relocalization result
-  3) server landmark request
-  4) server landmark result
+  1) relocalization request - checked, key is format transfer
+  2) relocalization result - checked, same as before
+  3) server landmark request - checked, key is format transfer
+  4) server landmark result - checked, same as before
 - tracker send relocalization request - checked, doable by degeneralize input multi-frame and pack into keyframe
 - server perform relocalization - checked, won't change if we don't change server for now
 - tracker initialization by server - checked, doable by using keyframe result to initialize multi-frame
