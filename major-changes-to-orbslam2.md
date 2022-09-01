@@ -164,3 +164,23 @@ First, list potential parts that need to be changed:
 - tracking lost logic - checked, same as preintegration, coordinate is VIP
 
 All the things would be affected if we can have a good design of the multi-frame data structure, which can degeneralize into traditional frame with the right coordinate (i.e. set default body frame as first camera's image frame) when only one camera is used as the input.
+
+
+---
+
+## Compatible with localization mode
+
+Similarly, list all items that might need to change:
+
+- tracker-server communication
+  1) relocalization request
+  2) relocalization result
+  3) server landmark request
+  4) server landmark result
+- tracker send relocalization request
+- server perform relocalization
+- tracker initialization by server
+- tracker request server landmark
+- server obtain server landmark
+- tracker receive server landmark
+- tracker use server landmark while tracking
