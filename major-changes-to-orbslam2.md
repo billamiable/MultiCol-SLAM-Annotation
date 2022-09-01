@@ -182,5 +182,5 @@ Similarly, list all items that might need to change:
 - tracker initialization by server - checked, doable by using keyframe result to initialize multi-frame
 - tracker request server landmark - checked, easiler than relocalization request
 - server obtain server landmark - checked, won't change if we don't change server for now
-- tracker receive server landmark
+- tracker receive server landmark - checked, make map db server landmark compatible, virtual keyframe need to support multi-keyframe
 - tracker use server landmark while tracking
