@@ -184,3 +184,32 @@ Similarly, list all items that might need to change:
 - server obtain server landmark - checked, won't change if we don't change server for now
 - tracker receive server landmark - checked, make map db server landmark compatible, virtual keyframe need to support multi-keyframe
 - tracker use server landmark while tracking - checked, similar to receive server landmark
+
+
+
+---
+
+## Multi-camera loop detection and map merge
+
+### Loop detection
+
+- Double-check whether directly stack BoW vector together is already enough
+- Consistency check
+- BoW score threshold computation
+- Select candidates that are above thre
+- Group consistency check
+
+
+### Loop validation
+- Search more correspondeces using BoW
+- Optimize with sim3 transform
+- Search more correspondences using camera projection
+
+### Correct loop
+- Update connections
+- Adjust landmarks using validated loop candidate
+- Fuse mappoints
+- Optimize essential graph
+
+### Map merge
+
