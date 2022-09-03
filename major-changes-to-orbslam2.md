@@ -193,7 +193,7 @@ Similarly, list all items that might need to change:
 
 ### Loop detection
 
-- Double-check whether directly stack BoW vector together is already enough
+- Stack BoW vector as input - checked, DetectLoop() is the same with stacked BoW, leave descpritor-bow relation
 - Consistency check
 - BoW score threshold computation
 - Select candidates that are above thre

@@ -111,6 +111,7 @@ namespace MultiColSLAM
 			// Feature vector associate features with nodes in the 4th level (from leaves up)
 			// We assume the vocabulary tree has 6 levels, change the 4 otherwise
 			// therefore, the mBowVec should already involve all cameras
+			// TODO why descriptor is related with bow vector?
 			mpORBvocabulary->transform(vCurrentDesc, mBowVec, mFeatVec, 4);
 		}
 		const int nrCams = camSystem.GetNrCams();
@@ -387,6 +388,7 @@ namespace MultiColSLAM
 		return mFeatVecs[c];
 	}
 
+	// it's the stacked bow vector for all cameras
 	DBoW2::BowVector cMultiKeyFrame::GetBowVector()
 	{
 		std::unique_lock<std::mutex> lock(mMutexFeatures);

@@ -110,11 +110,12 @@ namespace MultiColSLAM
 		return (!mlpLoopKeyFrameQueue.empty());
 	}
 
-	// TODO check if different from single-camera case
-	//      this only detect loop, doesn't perform update
+	// the whole pipeline is exactly the same as single-camera case
+	// note that this only detect loop, doesn't perform update
 	bool cLoopClosing::DetectLoop()
 	{
 		//cout << "in loop detect" << endl;
+		// same as single-camera
 		{
 			std::unique_lock<std::mutex>  lock(mMutexLoopQueue);
 			mpCurrentKF = mlpLoopKeyFrameQueue.front();
@@ -124,6 +125,7 @@ namespace MultiColSLAM
 		}
 
 		//   //If the map contains less than 10 KF or less than 10KF have passed from last loop detection
+		// same as single-camera
 		if (mpCurrentKF->mnId < mLastLoopKFid + 10)
 		{
 			mpKeyFrameDB->add(mpCurrentKF);
@@ -131,7 +133,8 @@ namespace MultiColSLAM
 			return false;
 		}
 
-		// Step1: directly use covisibility BoW for matching
+		// Step1: directly use covisibility BoW as a reference to find candidates
+		// same as single-camera
 		// Compute reference BoW similarity score
 		// This is the lowest score to a connected keyframe in the covisibility graph
 		// We will impose loop candidates to have a higher similarity than this
@@ -155,6 +158,7 @@ namespace MultiColSLAM
 		//cout << "minScore: " << minScore << endl;
 
 		// Step2: detect loop candidates from map database
+		// same as single-camera
 		// Query the database imposing the minimum score
 		std::vector<cMultiKeyFrame*> vpCandidateKFs =
 			mpKeyFrameDB->DetectLoopCandidates(mpCurrentKF, minScore);
@@ -171,7 +175,8 @@ namespace MultiColSLAM
 
 
 		// Step3: check consecutive keyframe consistency for loop candidate
-		// TODO what's the definition of consistency group??
+		// same as single-camera
+		// the use of consistency group is to ensure the loop is valid and follows the same pattern
 		// For each loop candidate check consistency with previous loop candidates
 		// Each candidate expands a covisibility group (keyframes connected to the loop candidate in the covisibility graph)
 		// A group is consistent with a previous group if they share at least a keyframe
