@@ -197,7 +197,7 @@ Similarly, list all items that might need to change:
 - **Covisibility check**
 - BoW score & common words thre computation - checked, DetectLoopCandidates() is the same
 - Select candidates that are above thre - checked, the same
-- Group consistency check
+- Group consistency check - checked, the same
 
 
 ### Loop validation
