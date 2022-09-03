@@ -78,18 +78,17 @@ namespace MultiColSLAM
 		mvInvertedFile.resize(mpVoc->size());
 	}
 
-	// TODO understand this part
-	//      seems that the whole BoW for MF will be used to compare
+	// the whole BoW for MF will be used to compare
 	vector<cMultiKeyFrame*> cMultiKeyFrameDatabase::DetectLoopCandidates(cMultiKeyFrame* pKF,
 		double minScore)
 	{
-		// TODO what's connected keyframes??
+		// TODO what's connected keyframes?? very similar to covisibility
+		// same as single-camera
 		set<cMultiKeyFrame*> spConnectedKeyFrames = pKF->GetConnectedKeyFrames();
 		list<cMultiKeyFrame*> lKFsSharingWords;
 
-		// Step1: get bow word sharing keyframes
-		// TODO for one camera or multi-camera?
-		//      seems to use multi-camera, but needs to investigate the implementation of bow
+		// Step1: get bow word sharing keyframes for multi-camera
+		// same as single-camera
 		// Search all keyframes that share a word with current keyframes
 		// Discard keyframes connected to the query keyframe
 		{
@@ -123,7 +122,8 @@ namespace MultiColSLAM
 
 		list<pair<double, cMultiKeyFrame*> > lScoreAndMatch;
 
-		// Step2: compare with those that beyond certain threshold
+		// Step2: compare with those that beyond certain threshold and get max common words
+		// same as single-camera
 		// Only compare against those multikeyframes that share enough words
 		int maxCommonWords = 0;
 		for (list<cMultiKeyFrame*>::iterator lit = lKFsSharingWords.begin(), lend = lKFsSharingWords.end();
@@ -137,7 +137,8 @@ namespace MultiColSLAM
 
 		int nscores = 0;
 
-		// Step3: use similarity score to filter again
+		// Step3: use similarity score and common words to filter again
+		// same as single-camera
 		// Compute similarity score. Retain the matches whose score is higher than minScore
 		for (list<cMultiKeyFrame*>::iterator lit = lKFsSharingWords.begin(), lend = lKFsSharingWords.end();
 			lit != lend; lit++)
@@ -162,6 +163,8 @@ namespace MultiColSLAM
 		list<pair<double, cMultiKeyFrame*> > lAccScoreAndMatch;
 		double bestAccScore = minScore;
 
+		// Step4: accumulate score by the kf's covisibility and select best candidates
+		// same as single-camera
 		// Lets now accumulate score by covisibility
 		for (list<pair<double, cMultiKeyFrame*> >::iterator it = lScoreAndMatch.begin(), itend = lScoreAndMatch.end();
 			it != itend; ++it)

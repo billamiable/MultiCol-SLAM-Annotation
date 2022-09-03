@@ -195,9 +195,8 @@ Similarly, list all items that might need to change:
 
 - Stack BoW vector as input - checked, DetectLoop() is the same with stacked BoW, leave descpritor-bow relation
 - **Covisibility check**
-- Consistency check
-- BoW score threshold computation
-- Select candidates that are above thre
+- BoW score & common words thre computation - checked, DetectLoopCandidates() is the same
+- Select candidates that are above thre - checked, the same
 - Group consistency check
 
 
