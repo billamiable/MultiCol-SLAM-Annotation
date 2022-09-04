@@ -206,10 +206,13 @@ Similarly, list all items that might need to change:
 - Search more correspondences using camera projection, checked, almost same, leave detail implementation
 
 ### Correct loop
-- Update connections
-- Adjust landmarks using validated loop candidate
-- Fuse mappoints
-- Optimize essential graph
+- Update connections - checked, same, leave detailed implementation
+- Propagate covisibility pose - checked, **pose definition is different (inverse)**
+- Adjust landmarks using validated loop candidate - checked, same logic but **remember the pose definition is different**
+- Replace current mappoints with loop mappoints - checked, same logic, leave underlying reason
+- Fuse mappoints, checked, same logic, leave detailed implementation
+- **Force relocalization for tracker - checked, added new logic, leave underlying reason**
+- Optimize essential graph - checked, same logic, leave detailed implementation
 
 ### Map merge
 

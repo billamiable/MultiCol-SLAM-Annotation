@@ -473,20 +473,27 @@ namespace MultiColSLAM
 		while (!mpLocalMapper->isStopped())
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
+		// Step1: update connection for the current keyframe
+		// same as single-camera case
 		// Ensure current MKF is updated
 		mpCurrentKF->UpdateConnections();
 
+		// Step2: get covisibility for current keyframe
+		// same as single-camera case
 		// Retrive MKFs connected to the current MKF and compute corrected Sim3 pose by propagation
 		mvpCurrentConnectedKFs = mpCurrentKF->GetVectorCovisibleKeyFrames();
 		mvpCurrentConnectedKFs.push_back(mpCurrentKF);
 
 		KeyFrameAndPose CorrectedSim3, NonCorrectedSim3;
 		CorrectedSim3[mpCurrentKF] = mg2oScw;
+		// TODO the definition seems confused here? origin is GetPoseInverse()
 		cv::Matx44d Twc = mpCurrentKF->GetPose(); // pose in the camera frame
 
-
+		// TODO why remove lock?
 		//std::unique_lock<std::mutex>  lock(mpMap->mMutexMapUpdate);
 
+		// Step3: propagate the corrected pose for covisibility
+		// same as single-camera case
 		for (std::vector<cMultiKeyFrame*>::iterator vit =
 			mvpCurrentConnectedKFs.begin(), vend = mvpCurrentConnectedKFs.end(); vit != vend; ++vit)
 		{
@@ -514,6 +521,8 @@ namespace MultiColSLAM
 			NonCorrectedSim3[pKFi] = g2oSiw;
 		}
 
+		// Step4: correct the 3d location of all mappoints based on the corrected pose
+		// same as single-camera case
 		// Correct all MapPoints observed by current keyframe and neighbors, so that they align with the other side of the loop
 		for (KeyFrameAndPose::iterator mit = CorrectedSim3.begin(), mend = CorrectedSim3.end(); mit != mend; mit++)
 		{
@@ -546,18 +555,26 @@ namespace MultiColSLAM
 				pMPi->UpdateNormalAndDepth();
 			}
 
+			// Step5: transform sim3 to se3 and update keyframe pose
+			// same as single-camera case
 			// Update keyframe pose with corrected Sim3. First transform Sim3 to SE3 (scale translation)
 			double scale = g2oCorrectedSiw.scale();
 			Eigen::Matrix3d eigR = g2oCorrectedSiw.rotation().toRotationMatrix();
 			Eigen::Vector3d eigt = g2oCorrectedSiw.translation() / scale;
 
 			cv::Matx44d correctedTiw = cConverter::toCvSE3(eigR, eigt);
-			// inverse!
+			// TODO inverse! definition is different
 			pKFi->SetPose(cConverter::invMat(correctedTiw));
+
+			// Step6: update connection for covisibility keyframe
+			// same as single-camera case
 			// Make sure connections are updated
 			pKFi->UpdateConnections();
 		}
 
+		// Step7: replace current mappoints with loop mappoints
+		// TODO don't really understand why this is useful
+		// same as single-camera case
 		// Start Loop Fusion
 		// Update matched map points and replace if duplicated
 		for (size_t i = 0; i < mvpCurrentMatchedPoints.size(); ++i)
@@ -577,6 +594,9 @@ namespace MultiColSLAM
 			}
 		}
 
+		// Step8: fuse mappoints that are from the updated covisibility mappoints
+		// same as single-camera case
+		// TODO detailed implementation
 		// Project MapPoints observed in the neighborhood of the loop keyframe
 		// into the current keyframe and neighbors using corrected poses.
 		// Fuse duplications.
@@ -586,14 +606,22 @@ namespace MultiColSLAM
 		// After the MapPoint fusion, new links in the covisibility graph will appear attaching both sides of the loop
 		std::map<cMultiKeyFrame*, std::set<cMultiKeyFrame*> > LoopConnections;
 
+		// mvpCurrentConnectedKFs is the covisibility of current keyframe
 		for (std::vector<cMultiKeyFrame*>::iterator vit = mvpCurrentConnectedKFs.begin(),
 			vend = mvpCurrentConnectedKFs.end(); vit != vend; vit++)
 		{
 			cMultiKeyFrame* pKFi = *vit;
+			// looks like second-level covisibility of current keyframe
 			std::vector<cMultiKeyFrame*> vpPreviousNeighbors = pKFi->GetVectorCovisibleKeyFrames();
 
+			// Step9: update connections for covisibility keyframes again
+			// same as single-camera case
 			// Update connections. Detect new links.
 			pKFi->UpdateConnections();
+
+			// Step10: get loop connection for covisibility
+			// same as single-camera case
+			// TODO investigate how loop connection is used in essential graph optim
 			LoopConnections[pKFi] = pKFi->GetConnectedKeyFrames();
 			for (std::vector<cMultiKeyFrame*>::iterator vit_prev = vpPreviousNeighbors.begin(),
 				vend_prev = vpPreviousNeighbors.end(); vit_prev != vend_prev; vit_prev++)
@@ -607,10 +635,15 @@ namespace MultiColSLAM
 			}
 		}
 
+		// Step11: force relocalization for tracker
+		// newly added func, weird to only have this difference
 		// TODO why is it necessary to force relocalization when correcting loop?
 		//      it's the only place where forcerelocalisation() is used!
 		//      to be aware, it is triggered in tracker
 		mpTracker->ForceRelocalisation();
+
+		// Step12: trigger optimize essential graph
+		// almost the same as single-camera case, api is a little different
 		cout << "======= Starting Essential Graph Optimization ========" << endl;
 		cOptimizer::OptimizeEssentialGraph(mpMap,
 			mpMatchedKF, mpCurrentKF,
@@ -618,6 +651,8 @@ namespace MultiColSLAM
 			NonCorrectedSim3, CorrectedSim3,
 			LoopConnections);
 
+		// Step13: post-processing after optimization
+		// same as single-camera case
 		//Add edge
 		mpMatchedKF->AddLoopEdge(mpCurrentKF);
 		mpCurrentKF->AddLoopEdge(mpMatchedKF);
