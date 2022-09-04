@@ -201,9 +201,9 @@ Similarly, list all items that might need to change:
 
 
 ### Loop validation
-- Search more correspondeces using BoW
-- Optimize with sim3 transform
-- Search more correspondences using camera projection
+- Search more correspondeces using BoW - checked, almost same, leave ORBmatcher specify descriptor dim & mask
+- Optimize with sim3 transform - checked, almost same except sim3solver needs camera system, leave RANSAC iter
+- Search more correspondences using camera projection, checked, almost same, leave detail implementation
 
 ### Correct loop
 - Update connections

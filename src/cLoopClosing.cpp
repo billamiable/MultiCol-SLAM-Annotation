@@ -260,11 +260,14 @@ namespace MultiColSLAM
 
 	bool cLoopClosing::ComputeSim3()
 	{
+		// Step1: search more corrspondences with candidates using bow
+		// almost the same as single-camera case
 		// For each consistent loop candidate we try to compute a Sim3
 		const int nInitialCandidates = mvpEnoughConsistentCandidates.size();
 
 		// We compute first ORB matches for each candidate
 		// If enough matches are found, we setup a Sim3Solver
+		// TODO there is some change here!
 		cORBmatcher matcher(0.9, checkOrientation, descDim, havingMasks);
 
 		std::vector<cSim3Solver*> vpSim3Solvers;
@@ -299,9 +302,12 @@ namespace MultiColSLAM
 				vbDiscarded[i] = true;
 				continue;
 			}
+			// Step2: if enough correspondences are found, set up sim3 solver
+			// almost the same as single-camera case
 			else
 			{
 				cout << "======== RANSAC (" << nmatches << ") ========" << endl;
+				// TODO change here for sim3solver, key is camera system!
 				cSim3Solver* pSolver = new cSim3Solver(mpCurrentKF,
 					pKF, vvpMapPointMatches[i], &mpCurrentKF->camSystem);
 				pSolver->SetRansacParameters(0.98, 15, 300);
@@ -313,6 +319,8 @@ namespace MultiColSLAM
 
 		bool bMatch = false;
 
+		// Step3: use sim3 solver to optimize with candidates
+		// almost the same as single-camera case
 		// Perform alternatively RANSAC iterations for each candidate
 		// until one is successful or all fail
 		while (nCandidates > 0 && !bMatch)
@@ -331,6 +339,7 @@ namespace MultiColSLAM
 
 				cSim3Solver* pSolver = vpSim3Solvers[i];
 				cv::Matx44d Scm = cv::Matx44d::eye();
+				// TODO check what's inside this iterate() little change here as well
 				bool success = pSolver->iterate(50, bNoMore, vbInliers, nInliers, Scm);
 				// If Ransac reaches max. iterations discard keyframe
 				if (bNoMore)
@@ -354,9 +363,15 @@ namespace MultiColSLAM
 					cv::Vec3d t = pSolver->GetEstimatedTranslation();
 					const double s = pSolver->GetEstimatedScale();
 					//cout << "scale: " << s <<endl<< " R: " << R;
+					// Step4: get more correspondences using search by sim3
+					// almost the same as single-camera case
+					// TODO different threshold
 					matcher.SearchBySim3(mpCurrentKF, pKF, vpMapPointMatches, s, R, t, 10);
 
+					// Step5: optimize sim3 transform
+					// almost the same as single-camera case
 					g2o::Sim3 gScm(cConverter::toMatrix3d(R), cConverter::toVector3d(t), s);
+					// TODO little change for api
 					const int nInliers = cOptimizer::OptimizeSim3(mpCurrentKF, pKF, vpMapPointMatches, gScm);
 					cout << "inliers horn after sim3 optimization: " << nInliers << endl;
 					// If optimization is succesful stop ransac and continue
@@ -364,6 +379,7 @@ namespace MultiColSLAM
 					{
 						bMatch = true;
 						mpMatchedKF = pKF;
+						// still the definition of virtual body frame
 						cv::Matx44d pKf_inv = pKF->GetPoseInverse(); // pose in camera frame
 						g2o::Sim3 gSmw(cConverter::toMatrix3d(cConverter::Hom2R(pKf_inv)),
 							cConverter::toVector3d(cConverter::Hom2T(pKf_inv)), 1.0);
@@ -388,6 +404,8 @@ namespace MultiColSLAM
 			return false;
 		}
 
+		// Step6: retrieve matched kf and its covisibility, then get their corresponding mappoints
+		// same as single-camera case
 		// Retrieve MapPoints seen in Loop Keyframe and neighbors
 		std::vector<cMultiKeyFrame*> vpLoopConnectedKFs = mpMatchedKF->GetVectorCovisibleKeyFrames();
 		vpLoopConnectedKFs.push_back(mpMatchedKF);
@@ -411,6 +429,8 @@ namespace MultiColSLAM
 			}
 		}
 
+		// Step7: get more correspondences using search by projection
+		// same as single-camera case
 		// Find more matches projecting with the computed Sim3
 		int matcherFound = matcher.SearchByProjection(mpCurrentKF,
 			mScw, mvpLoopMapPoints, mvpCurrentMatchedPoints, 10);
@@ -420,7 +440,7 @@ namespace MultiColSLAM
 		for (size_t i = 0; i < mvpCurrentMatchedPoints.size(); ++i)
 			if (mvpCurrentMatchedPoints[i])
 				nTotalMatches++;
-
+		// TODO change for threshold
 		if (nTotalMatches >= 20)
 		{
 			cout << "=== Sim3 would accept this candidate (" << nTotalMatches << ") ===" << endl;
