@@ -216,3 +216,15 @@ Similarly, list all items that might need to change:
 
 ### Map merge
 
+First list all involved modules for map merge
+- Preprocess
+- Update connection
+- Transform map via sim3
+- Replace duplicated landmarks
+- Get local map for keyframes
+- Extract new connections (NOT USED)
+- Local BA for merging map
+- Postprocess (change map id)
+
+
+Then think about which part should be changed for multi-camera case
