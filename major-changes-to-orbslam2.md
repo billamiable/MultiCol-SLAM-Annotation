@@ -66,7 +66,7 @@
 10. major part summarization - summarized all known modules, except compatible-related stuff
 11. work with odom/imu - checked, define good multi-frame and set default virtual body frame as first camera's image frame
 12. localization mode - checked, reverse transform from keyframe to multi-(key)frame is needed
-13. detect loop, map merge
+13. detect loop, map merge - checked, overall same with stacked bow, leave force relocalization and different pose definition (inverse)
 14. rtabmap
 15. GPNP
 16. generic model
