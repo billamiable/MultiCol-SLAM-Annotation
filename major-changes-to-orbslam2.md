@@ -223,7 +223,7 @@ First list all involved modules for map merge
 - Replace duplicated landmarks - checked, similar as loop correction
 - Get local map for keyframes - checked, shouldn't be difficult
 - Extract new connections (NOT USED) - checked
-- Local BA for merging map
+- Local BA for merging map - checked, overall similar to original local ba with robust kernel used except more cameras involved, leave inter-camera observation for future
 - Postprocess (change map id) - checked, similar, leave process msg stored & send back tracker
 
 
