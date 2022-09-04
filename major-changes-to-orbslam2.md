@@ -217,7 +217,7 @@ Similarly, list all items that might need to change:
 ### Map merge
 
 First list all involved modules for map merge
-- Preprocess
+- Preprocess - checked, make sure the map id is correct
 - Update connection - checked, similar as loop correction
 - Transform map via sim3 - checked, similar as loop correction
 - Replace duplicated landmarks - checked, similar as loop correction
