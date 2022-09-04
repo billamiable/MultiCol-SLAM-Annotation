@@ -224,7 +224,7 @@ First list all involved modules for map merge
 - Get local map for keyframes - checked, shouldn't be difficult
 - Extract new connections (NOT USED) - checked
 - Local BA for merging map
-- Postprocess (change map id)
+- Postprocess (change map id) - checked, similar, leave process msg stored & send back tracker
 
 
 Then think about which part should be changed for multi-camera case
