@@ -218,11 +218,11 @@ Similarly, list all items that might need to change:
 
 First list all involved modules for map merge
 - Preprocess
-- Update connection
-- Transform map via sim3
-- Replace duplicated landmarks
-- Get local map for keyframes
-- Extract new connections (NOT USED)
+- Update connection - checked, similar as loop correction
+- Transform map via sim3 - checked, similar as loop correction
+- Replace duplicated landmarks - checked, similar as loop correction
+- Get local map for keyframes - checked, shouldn't be difficult
+- Extract new connections (NOT USED) - checked
 - Local BA for merging map
 - Postprocess (change map id)
 
