@@ -408,6 +408,7 @@ namespace MultiColSLAM
 		return images[cam].clone();
 	}
 
+	// seems like the covisibility is also treated as a whole for multi-camera case
 	void cMultiKeyFrame::UpdateConnections()
 	{
 		std::map<cMultiKeyFrame*, int> KFcounter;
@@ -432,6 +433,7 @@ namespace MultiColSLAM
 			if (pMP->isBad())
 				continue;
 
+			// observation contains all camera info, but data structure is different
 			std::map<cMultiKeyFrame*, std::vector<size_t>> observations = pMP->GetObservations();
 
 			for (std::map<cMultiKeyFrame*, std::vector<size_t>>::iterator mit = observations.begin(),
@@ -441,6 +443,8 @@ namespace MultiColSLAM
 					continue;
 				//for (auto& obsIdx: mit->second)
 				//KFcounter[mit->first] += mit->second.size();
+				// this part is still the same as before
+				// which means the different data structure of observation is not used
 				KFcounter[mit->first]++;
 			}
 		}

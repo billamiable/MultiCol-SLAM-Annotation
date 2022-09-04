@@ -121,6 +121,8 @@ namespace MultiColSLAM
 		cv::Vec3d mWorldPos;
 		cv::Vec3d mModelPos;
 		// Keyframes observing the point and associated indeces in keyframe
+		// this one is different from single-camera case (std::map<KeyFrame*,size_t> mObservations;)
+		// it's obvious that for indices, here needs to specify which camera observes it
 		std::map<cMultiKeyFrame*, std::vector<size_t>> mObservations;
 
 		// Mean viewing direction

@@ -90,6 +90,8 @@ namespace MultiColSLAM
 	void cMapPoint::AddObservation(cMultiKeyFrame* pKF, const size_t& idx)
 	{
 		std::unique_lock<std::mutex> lock(mMutexFeatures);
+		// here it means, for a single mappoint, it may be observed by different cameras in a single MF
+		// TODO check if other places use this different formulation, at least for covisibility it's not used!
 		mObservations[pKF].push_back(idx); // push back since multiple image points per 3d point exist
 	}
 

@@ -194,7 +194,7 @@ Similarly, list all items that might need to change:
 ### Loop detection
 
 - Stack BoW vector as input - checked, DetectLoop() is the same with stacked BoW, leave descpritor-bow relation
-- **Covisibility check**
+- **Covisibility & connected keyframes** - checked, ordered connected kf is covisibility, logic almost the same by treating the MF as a whole when talking about covisibility, leave for future check: only difference is multiple cameras can observe a mappoint in a single MF, check if used in other places
 - BoW score & common words thre computation - checked, DetectLoopCandidates() is the same
 - Select candidates that are above thre - checked, the same
 - Group consistency check - checked, the same
