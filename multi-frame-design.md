@@ -5,7 +5,7 @@
 
 #### Similar part
 
-1. vocabulary for relocalization: ```ORBVocabulary* mpORBvocabulary``` - same?
+1. vocabulary for relocalization: ```ORBVocabulary* mpORBvocabulary``` - checked, BoW used ORB descriptor, similar, leave multi-camera diff
 2. feature extractor: ```ORBextractor* mpORBextractorLeft, *mpORBextractorRight``` - diff
 3. timestamp: ```double mTimeStamp``` - same
 4. total number of Keypoints: ```int N``` - similar
@@ -50,7 +50,7 @@
 
 #### Similar part
 
-1. vocabulary for relocalization: ```ORBVocabulary* mpORBvocabulary``` - same?
+1. vocabulary for relocalization: ```ORBVocabulary* mpORBvocabulary``` - checked
 2. feature extractor: ```std::vector<mdBRIEFextractorOct*> mp_mdBRIEF_extractorOct``` - diff
 3. timestamp: ```double mTimeStamp``` - same
 4. total number of Keypoints: ```size_t totalN``` - similar
