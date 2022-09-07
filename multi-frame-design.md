@@ -6,19 +6,19 @@
 #### Similar part
 
 1. vocabulary for relocalization: ```ORBVocabulary* mpORBvocabulary``` - checked, BoW used ORB descriptor, similar, leave multi-camera diff
-2. feature extractor: ```ORBextractor* mpORBextractorLeft, *mpORBextractorRight``` - diff
-3. timestamp: ```double mTimeStamp``` - same
-4. total number of Keypoints: ```int N``` - similar
-5. keypoint vector: ```std::vector<cv::KeyPoint> mvKeys, mvKeysRight``` - diff
-6. Bag of Words Vector structures: ```DBoW2::BowVector mBowVec; DBoW2::FeatureVector mFeatVec;```
-7. mappoints: ```std::vector<MapPoint*> mvpMapPoints;```
-8. Flag to identify outlier associations: ```std::vector<bool> mvbOutlier;```
-9. Keypoints are assigned to cells in a grid to reduce matching complexity when projecting MapPoints: ```static float mfGridElementWidthInv; static float mfGridElementHeightInv; std::vector<std::size_t> mGrid[FRAME_GRID_COLS][FRAME_GRID_ROWS];```
-10. Current and Next Frame id: ```static long unsigned int nNextId; long unsigned int mnId;```
-11. Reference Keyframe: ```KeyFrame* mpReferenceKF;```
-12. Scale pyramid info: ```int mnScaleLevels; float mfScaleFactor; vector<float> mvScaleFactors; vector<float> mvLevelSigma2; vector<float> mvInvLevelSigma2;```
-13. Undistorted Image Bounds (computed once): ```static float mnMinX; static float mnMaxX; static float mnMinY; static float mnMaxY;```
-14. initial computation constant: ```static bool mbInitialComputations```
+2. feature extractor: ```ORBextractor* mpORBextractorLeft, *mpORBextractorRight``` - checked, used diff extractor, essentially the same
+3. timestamp: ```double mTimeStamp``` - checked, same
+4. total number of Keypoints: ```int N``` - checked, similar except contains all keypoints from cameras
+5. keypoint vector: ```std::vector<cv::KeyPoint> mvKeys, mvKeysRight``` - checked, similar as above
+6. Bag of Words Vector structures: ```DBoW2::BowVector mBowVec; DBoW2::FeatureVector mFeatVec;``` - checked, similar as above
+7. mappoints: ```std::vector<MapPoint*> mvpMapPoints;``` - checked, similar as above
+8. Flag to identify outlier associations: ```std::vector<bool> mvbOutlier;``` - checked, similar as above
+9. Keypoints are assigned to cells in a grid to reduce matching complexity when projecting MapPoints: ```static float mfGridElementWidthInv; static float mfGridElementHeightInv; std::vector<std::size_t> mGrid[FRAME_GRID_COLS][FRAME_GRID_ROWS];``` - checked, already in orbslam, similar as above
+10. Current and Next Frame id: ```static long unsigned int nNextId; long unsigned int mnId;``` - checked, same
+11. Reference Keyframe: ```KeyFrame* mpReferenceKF;``` - checked, same
+12. Scale pyramid info: ```int mnScaleLevels; float mfScaleFactor; vector<float> mvScaleFactors; vector<float> mvLevelSigma2; vector<float> mvInvLevelSigma2;``` - checked, same
+13. Undistorted Image Bounds (computed once): ```static float mnMinX; static float mnMaxX; static float mnMinY; static float mnMaxY;``` - checked, similar as above
+14. initial computation bool: ```static bool mbInitialComputations``` - checked, same meaning
 
 
 #### Added part
@@ -51,19 +51,19 @@
 #### Similar part
 
 1. vocabulary for relocalization: ```ORBVocabulary* mpORBvocabulary``` - checked
-2. feature extractor: ```std::vector<mdBRIEFextractorOct*> mp_mdBRIEF_extractorOct``` - diff
-3. timestamp: ```double mTimeStamp``` - same
-4. total number of Keypoints: ```size_t totalN``` - similar
-5. keypoint vector: ```std::vector<cv::KeyPoint> mvKeys``` - diff
-6. Bag of Words Vector structures: ```DBoW2::BowVector mBowVec; DBoW2::FeatureVector mFeatVec;```
-7. mappoints: ```std::vector<cMapPoint*> mvpMapPoints;```
-8. Flag to identify outlier associations: ```std::vector<bool> mvbOutlier;```
-9. Keypoints are assigned to cells in a grid to reduce matching complexity when projecting MapPoints: ```std::vector<double> mfGridElementWidthInv; std::vector<double> mfGridElementHeightInv; std::vector<std::vector<std::vector<std::vector<std::size_t> > > > mGrids;```
-10. Current and Next Frame id: ```static long unsigned int nNextId; long unsigned int mnId;```
-11. Reference Keyframe: ```cMultiKeyFrame* mpReferenceKF;```
-12. Scale pyramid info: ```int mnScaleLevels; double mfScaleFactor; std::vector<double> mvScaleFactors; std::vector<double> mvLevelSigma2; std::vector<double> mvInvLevelSigma2;```
-13. Undistorted Image Bounds (computed once): ```static std::vector<int> mnMinX; static std::vector<int> mnMaxX; static std::vector<int> mnMinY; static std::vector<int> mnMaxY;```
-14. initial computation constant: ```static bool mbInitialComputations```
+2. feature extractor: ```std::vector<mdBRIEFextractorOct*> mp_mdBRIEF_extractorOct``` - checked, diff
+3. timestamp: ```double mTimeStamp``` - checked, same
+4. total number of Keypoints: ```size_t totalN``` - checked, similar
+5. keypoint vector: ```std::vector<cv::KeyPoint> mvKeys``` - checked, similar
+6. Bag of Words Vector structures: ```DBoW2::BowVector mBowVec; DBoW2::FeatureVector mFeatVec;``` - checked, similar
+7. mappoints: ```std::vector<cMapPoint*> mvpMapPoints;``` - checked, similar
+8. Flag to identify outlier associations: ```std::vector<bool> mvbOutlier;``` - checked, similar
+9. Keypoints are assigned to cells in a grid to reduce matching complexity when projecting MapPoints: ```std::vector<double> mfGridElementWidthInv; std::vector<double> mfGridElementHeightInv; std::vector<std::vector<std::vector<std::vector<std::size_t> > > > mGrids;``` - checked, similar
+10. Current and Next Frame id: ```static long unsigned int nNextId; long unsigned int mnId;``` - checked, same
+11. Reference Keyframe: ```cMultiKeyFrame* mpReferenceKF;``` - checked, same
+12. Scale pyramid info: ```int mnScaleLevels; double mfScaleFactor; std::vector<double> mvScaleFactors; std::vector<double> mvLevelSigma2; std::vector<double> mvInvLevelSigma2;``` - checked, same
+13. Undistorted Image Bounds (computed once): ```static std::vector<int> mnMinX; static std::vector<int> mnMaxX; static std::vector<int> mnMinY; static std::vector<int> mnMaxY;``` - checked, similar
+14. initial computation bool: ```static bool mbInitialComputations``` - checked, not used
 
 
 #### Added part
