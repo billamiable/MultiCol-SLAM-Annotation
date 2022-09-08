@@ -155,9 +155,40 @@ In this form, to represent data structures for multiple cameras, we will simply 
 
 **TODO List:**
 
-1. check places of API change - it actually determines how much effort needed - what if no much place to change, do we still need to struggle what method to use? - what can't not be aviod is that how we use the data inside the function (highly likely we need to use compiler_flag to distinguish different cases)
-2. investigate compiler_flag based code - brief idea get, but may become complicated for multi-camera use
-3. Yin Han's suggestion: derived class for vector, no need to change api, use compiler flag to determine which data structure to use and how to process inside function
+1. check places of API change - what can't not be aviod is that how we use the data inside the function
+2. investigate compiler_flag based code - get brief idea, but may be more complicated for multi-camera use
+3. Yin Han's suggestion: 
+   1) derived class for vector, no need to change api - no recommended by Xin as too many needs to be taken into consideration, easier to use self-defined data type (i.e. vector of vector); 
+   2) use compiler flag to determine which data structure to use and how to process inside function
 4. Pay attention to whether the api needs two copy
 5. Pay attention to code compatiblity and step-by-step implementation
 6. talk with Xin and see if he has better solution
+
+---
+
+### Xin's suggestion
+
+**Overall logic:**
+
+1. Define class of Multi-Frame, let Frame class derive from Multi-Frame (Frame is a special case of Multi-Frame so Frame should be derived case)
+2. Use API oriented programming: 
+    - Frame-related implementations: for all member functions in the original frame class, it will be defined in the derived class as before and set as virtual function in the base class.
+    - New implementations: for all member functions that will be added for multi-camera usage, it will be defined in the base class and set to empty in the derived class.
+3. Modify the overall pipeline code to replace Frame class with Multi-Frame class by simply changing the variable names as all member functions are using the same func name.
+
+**Left-over questions:**
+
+1. How to know use base or derived class in the code?
+   - Use base pointer to point at derived object, i.e. when creating frame object, use input camera num to decide creating base object or derived object.
+   - If created derived object, then everything should be the same;
+   - If created base object, then use all implementations in the base class (keep another modified copy of derived implementation in the base class).
+
+2. How to remove the 2 copies and only leave 1 at last?
+   - Finally only the base class's implementation will be kept as it includes the more complicated operations.
+   - Much likely after few changes, the code should work with the special case of single camera. (keep in mind to make the difference as small as possible for base and derived class implementations)
+   - After that, the derived class can be removed totally.
+
+3. How to deal with data member?
+    - Derived class contains the single camera's data, while base class contains N-times data.
+    - *So would it waste too much when the derived class contains all the base class's data? Or since we will delete the derived class eventually, so it doesn't matter?*
+    - *Suppose the base class and derived class contains totally different data, and they each only use their own data. Then it should be fine, right?*
