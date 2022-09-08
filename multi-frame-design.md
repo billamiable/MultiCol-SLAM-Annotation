@@ -129,13 +129,13 @@ In this form, whenever we can simply stack stuff onto the original data structur
 
 ### Method 2: use two-fold data structure
 
-In this form, to represent data structures for multiple cameras, we will simply create a vector-of-vector data structure.
+In this form, to represent data structures for multiple cameras, we will simply create a vector-of-vector/ map-of-vector data structure.
 
 **Examples:**
 
-- keypoints: ```std::vector<std::vector<cv::KeyPoint>>```
-- mappoints: ```std::vector<std::vector<MapPoint*>>```
-- BoW vector structures: ```std::vector<DBoW2::BowVector>```,```std::vector<DBoW2::FeatureVector>```
+- keypoints: ```std::vector<std::vector<cv::KeyPoint>>``` or ```std::unordered_map<int, std::vector<cv::KeyPoint>>```
+- mappoints: ```std::vector<std::vector<MapPoint*>>``` or ```std::unordered_map<int, std::vector<MapPoint*>>```
+- BoW vector structures: ```std::vector<DBoW2::BowVector>```,```std::vector<DBoW2::FeatureVector>``` or ```std::unordered_map<int, DBoW2::BowVector>```,```std::unordered_map<int, DBoW2::FeatureVector>```
 - ...
 
 **Pros**
@@ -149,3 +149,14 @@ In this form, to represent data structures for multiple cameras, we will simply 
 
 1. All API will need to change accordingly which requires much effort (unless outside function call, the data structure is changed to the form of simple stacking, which may be ugly).
 2. If API is changed, inside the function call, we may still need to stack data if needed.
+
+---
+
+**TODO List:**
+
+1. check places of API change
+2. investigate compiler_flag based code - brief idea get, but may become complicated for multi-camera use
+3. Yin Han's suggestion: derived class for vector, no need to change api, use compiler flag to determine which data structure to use and how to process inside function
+4. Pay attention to whether the api needs two copy
+5. Pay attention to code compatiblity and step-by-step implementation
+6. talk with Xin and see if he has better solution
