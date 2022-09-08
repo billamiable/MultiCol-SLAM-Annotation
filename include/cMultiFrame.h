@@ -161,15 +161,15 @@ namespace MultiColSLAM
 
 		static bool mbInitialComputations;
 
+		// the following two variables together can relate any keypoint with its camera and local camera's keypoint id
 		// this variable holds the mapping between keypoint ID and camera
 		// it was observed in
-		// [key_id : cam_id]
+		// [keypoint_id_in_all_keypoints : cam_id]
 		std::unordered_map<size_t, int> keypoint_to_cam;
 		// this variable holds the mapping between the continous indexing of all
 		// descriptors and keypoints and the image wise indexes
 		// it was observed in
-		// [cont_id : local_image_id]
-		// TODO understand this.. seems to related with descriptor? but how?
+		// [keypoint_id_in_all_keypoints : corresponding_local_image_keypoint_id]
 		std::unordered_map<size_t, int> cont_idx_to_local_cam_idx;
 
 		// pose-related operations are all overwritten
