@@ -90,7 +90,9 @@ namespace MultiColSLAM
 		// for each camera
 		// the total keypoints for all cameras, use keypoint_to_cam to distinguish between cameras
 		std::vector<cv::KeyPoint> mvKeys;
-		std::vector<cv::Vec3d>    mvKeysRays; // 3D observation rays TODO what't this?
+		// one form of normalized plane (similar to [X,Y,Z] which indicates landmark 3D coodinate)
+		// only difference is that this vector is normalized and have norm = 1
+		std::vector<cv::Vec3d>    mvKeysRays; // 3D observation rays
 
 		// Bag of Words Vector structures
 		// difference: add two vectors here, thus it seems that BoW vector cannot be concat directly

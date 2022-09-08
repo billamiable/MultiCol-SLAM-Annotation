@@ -74,7 +74,7 @@
 4. BoW vectors: ```std::vector<DBoW2::BowVector> mBowVecs; std::vector<DBoW2::FeatureVector> mFeatVecs;``` - checked, not used
 5. learned mask: ```std::vector<cv::Mat> mDescriptorMasks;``` - checked, used in generic camera model, leave details
 6. others: ```bool mdBRIEF; bool masksLearned; int descDimension; int imgCnt;``` - checked, seems to have no big usage
-7. bearing vectors 3d for keypoints: ```std::vector<cv::Vec3d> mvKeysRays;```
+7. bearing vectors 3d for keypoints: ```std::vector<cv::Vec3d> mvKeysRays;``` - checked, understand meaning, also used in original system but not defined explicitly
 8. mapping between keypoint ID and camera [key_id : cam_id]: ```std::unordered_map<size_t, int> keypoint_to_cam;``` - checked, understand meaning, may have better form
 9. mapping between the continous indexing of all descriptors and keypoints and the image wise indexes [cont_descriptor_id : local_image_id]: ```std::unordered_map<size_t, int> cont_idx_to_local_cam_idx;```
 
