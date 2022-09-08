@@ -90,3 +90,62 @@
 ## Member func comparison
 
 **TODO**
+
+---
+
+## Thoughts on Our Multi-Frame Design
+
+--- 
+
+### Method 1: try keeping the original data structure
+
+In this form, whenever we can simply stack stuff onto the original data structure, we will do so. 
+
+**Examples:**
+
+- keypoints: ```std::vector<cv::KeyPoint>```
+- mappoints: ```std::vector<MapPoint*>```
+- outlier associations: ```std::vector<bool>```
+- stereo coordinates and depths for keypoints: ```std::vector<float>```
+- 3d bearing vectors for keypoints: ```std::vector<cv::Vec3d>```
+- BoW vector structures: ```DBoW2::BowVector```,``` DBoW2::FeatureVector```
+
+
+**Pros**
+   
+1. All related APIs don't need to change
+2. Some algorithm directly use stacked data structure, for example, BoW vector operation.
+
+
+**Cons**
+
+1. Need extra data structure to store the relationship between each keypoint in big data structure with corresponding camera and local camera's keypoint id, which looks not elegant.
+2. Not all data structures can be simply stacked, for example:
+   - descriptor: ```std::vector<cv::Mat>``` vs ```cv::Mat```
+   - Keypoints are assigned to cells in a grid: ```std::vector<std::vector<std::vector<std::vector<std::size_t> > > > mGrids``` vs ```std::vector<std::size_t> mGrid[FRAME_GRID_COLS][FRAME_GRID_ROWS]```
+   - Undistorted Image Bounds: ```static std::vector<int> mnMinX; static std::vector<int> mnMaxX; static std::vector<int> mnMinY; static std::vector<int> mnMaxY;``` vs ```static float mnMinX; static float mnMaxX; static float mnMinY; static float mnMaxY;```
+
+---
+
+### Method 2: use two-fold data structure
+
+In this form, to represent data structures for multiple cameras, we will simply create a vector-of-vector data structure.
+
+**Examples:**
+
+- keypoints: ```std::vector<std::vector<cv::KeyPoint>>```
+- mappoints: ```std::vector<std::vector<MapPoint*>>```
+- BoW vector structures: ```std::vector<DBoW2::BowVector>```,```std::vector<DBoW2::FeatureVector>```
+- ...
+
+**Pros**
+
+1. All data structures follow the same scheme, the code is elegant and easier to understand
+2. Don't need extra data structures to store the relationship between each keypoint in big data structure with corresponding camera and local camera's keypoint id
+3. Differentiate with MultiCol-SLAM and avoid potential license issue
+
+
+**Cons**
+
+1. All API will need to change accordingly which requires much effort (unless outside function call, the data structure is changed to the form of simple stacking, which may be ugly).
+2. If API is changed, inside the function call, we may still need to stack data if needed.
