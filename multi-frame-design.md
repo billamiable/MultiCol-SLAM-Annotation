@@ -103,13 +103,14 @@ In this form, whenever we can simply stack stuff onto the original data structur
 
 **Examples:**
 
-- keypoints: ```std::vector<cv::KeyPoint>```
-- mappoints: ```std::vector<MapPoint*>```
+- keypoints: ```std::vector<cv::KeyPoint>``` - return+pnp*2(?)+undist_kp+kp_to_bearing+homography(?)+fundemental(?)+assign_to_grid+stereo(?)+orb_extractor
+- mappoints: ```std::vector<MapPoint*>``` - pnp*2
 - outlier associations: ```std::vector<bool>```
 - stereo coordinates and depths for keypoints: ```std::vector<float>```
-- 3d bearing vectors for keypoints: ```std::vector<cv::Vec3d>```
+- 3d bearing vectors for keypoints: ```std::vector<cv::Vec3d>``` - pnp*2+kp_to_bearing
 - BoW vector structures: ```DBoW2::BowVector```,``` DBoW2::FeatureVector```
 
+All influenced: kf_ctor
 
 **Pros**
    
@@ -154,7 +155,7 @@ In this form, to represent data structures for multiple cameras, we will simply 
 
 **TODO List:**
 
-1. check places of API change
+1. check places of API change - it actually determines how much effort needed - what if no much place to change, do we still need to struggle what method to use? - what can't not be aviod is that how we use the data inside the function (highly likely we need to use compiler_flag to distinguish different cases)
 2. investigate compiler_flag based code - brief idea get, but may become complicated for multi-camera use
 3. Yin Han's suggestion: derived class for vector, no need to change api, use compiler flag to determine which data structure to use and how to process inside function
 4. Pay attention to whether the api needs two copy
