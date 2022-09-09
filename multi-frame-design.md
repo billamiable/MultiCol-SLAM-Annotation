@@ -204,7 +204,21 @@ In this form, to represent data structures for multiple cameras, we will simply 
 **Questions**
 
 1. How to deal with Keyframe class that are used within Frame class?
+   - Doesn't matter, since right now we are keeping Keyframe as it was. And we can still compile before implementing Multi-Keyframe.
+
 2. What about the Multi-Frame ctor? Should we leave their implementation as empty?
+   - Instead, we can move all the Frame ctor to the Multi-Frame ctor since it is sth we will ultimately do.
+   - For the first phase, we can only include the above definitions; later we can add Multi-Frame specific logics.
+   - When defining the ctor for the Frame class, remember to first call the Multi-Frame ctor (reference to *univloc_tracking_module*), and then we should need to do nothing more inside Frame ctor.
+
 3. For all the member functions defined in Frame class, we will set the corresponding virtual function in Multi-Frame class and override in Frame class?
+   - Correct, that's what I've done.
+
 4. Any better way to get the first element of data member from Multi-Frame class? Naive way is to change all the places that used the data member to index the very first element.
+   - Still keep the data inside Frame class and use the N-times data to initialize the single-data during frame ctor.
+   - In this way, we can avoid the ugly changes that would occur everywhere.
+   - But eventually this shouldn't be a problem since we would simply remove all the frame-related parts.
+
+5. For map of vector, is it less inefficint than vector of vector from the memory perspective? For example, when it comes to data copy.
+   - To be investigated.
 
