@@ -190,5 +190,4 @@ In this form, to represent data structures for multiple cameras, we will simply 
 
 3. How to deal with data member?
     - Derived class contains the single camera's data, while base class contains N-times data.
-    - *So would it waste too much when the derived class contains all the base class's data? Or since we will delete the derived class eventually, so it doesn't matter?*
-    - *Suppose the base class and derived class contains totally different data, and they each only use their own data. Then it should be fine, right?*
+    - Therefore, essentially the base class uses vector of vector and the derived class also use this data type except only having 1 element inside.
