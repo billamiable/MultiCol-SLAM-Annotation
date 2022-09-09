@@ -191,3 +191,20 @@ In this form, to represent data structures for multiple cameras, we will simply 
 3. How to deal with data member?
     - Derived class contains the single camera's data, while base class contains N-times data.
     - Therefore, essentially the base class uses vector of vector and the derived class also use this data type except only having 1 element inside.
+
+
+---
+
+### Ways to implement
+
+1. Data member: use map of vector data structure
+2. Member function: use the same name for all member functions
+3. **Keep in mind how to minimize the changing effort (need more thoughts here)**
+
+**Questions**
+
+1. How to deal with Keyframe class that are used within Frame class?
+2. What about the Multi-Frame ctor? Should we leave their implementation as empty?
+3. For all the member functions defined in Frame class, we will set the corresponding virtual function in Multi-Frame class and override in Frame class?
+4. Any better way to get the first element of data member from Multi-Frame class? Naive way is to change all the places that used the data member to index the very first element.
+
