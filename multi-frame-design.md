@@ -197,9 +197,10 @@ In this form, to represent data structures for multiple cameras, we will simply 
 
 ### Ways to implement
 
-1. Data member: use map of vector data structure
-2. Member function: use the same name for all member functions
-3. **Keep in mind how to minimize the changing effort (need more thoughts here)**
+1. Data member: use map-of-vector data structure in base class, get data from map-of-vector to construct normal vector data
+2. Member function: use the same name for all member functions, set virtual in base class and define in derived class
+3. Constructor: move all derived class ctor implementations to base class; in derived class ctor, first construct base class object, then use the data from the object to construct derived class data
+4. Pipeline: condition check to determine base pointer to point at base object or derived object, keep the variable name as before to minimize code changes
 
 **Questions**
 
