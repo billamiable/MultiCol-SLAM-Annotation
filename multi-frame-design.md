@@ -200,7 +200,13 @@ In this form, to represent data structures for multiple cameras, we will simply 
 1. Data member: use map-of-vector data structure in base class, get data from map-of-vector to construct normal vector data
 2. Member function: use the same name for all member functions, set virtual in base class and define in derived class
 3. Constructor: move all derived class ctor implementations to base class; in derived class ctor, first construct base class object, then use the data from the object to construct derived class data
-4. Pipeline: condition check to determine base pointer to point at base object or derived object, keep the variable name as before to minimize code changes
+   - for base class ctor: it takes input parameters (outside func need changes) and complete initialization (relatively simple for tracker, as orb extract has been moved outside)
+   - for derived class ctor: first construct base class object in the initialization list, then use the data members of the object to initialize the data members in derived class
+   - If the derived class ctor has operations that use the data member, then it is not wise to move them to the base class ctor for now
+   
+4. Pipeline: condition check to determine base pointer to point at base object or derived object
+   - keep the variable name as before to minimize code changes
+   - will take almost same input parameters, derived class can accept more inputs if needed)
 
 **Questions**
 
@@ -222,4 +228,8 @@ In this form, to represent data structures for multiple cameras, we will simply 
 
 5. For map of vector, is it less inefficint than vector of vector from the memory perspective? For example, when it comes to data copy.
    - To be investigated.
+
+6. What about server part? Should I change all together?
+
+7. What about tracker server communication part?
 
